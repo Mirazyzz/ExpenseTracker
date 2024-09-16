@@ -21,7 +21,7 @@ html {
 body {
     margin-bottom: 60px;
     background-color: #12161d;
-    color:white;
+    color: white;
     overflow: hidden;
 }
 
@@ -78,7 +78,7 @@ body {
 
     .e-grid .e-gridpager {
         background-color: #1a222b;
-        color:white
+        color: white
     }
 
     .e-grid .e-pagercontainer {
@@ -88,7 +88,7 @@ body {
 
     .e-grid .e-content table {
         padding: 0px 10px;
-        font-weight:bold;
+        font-weight: bold;
     }
 
 .e-pagercontainer .e-icons {
@@ -104,7 +104,7 @@ body {
 
     .e-pager .e-numericitem:not(.e-currentitem) {
         border: none !important;
-        color:#fff;
+        color: #fff;
     }
 
     .e-pager .e-numericitem:hover {
@@ -114,8 +114,8 @@ body {
     .e-pager .e-numericitem.e-currentitem {
         color: dodgerblue;
         border: none !important;
-        font-weight:bold;
-        font-size:16px;
+        font-weight: bold;
+        font-size: 16px;
         background-color: transparent;
     }
 
@@ -188,12 +188,12 @@ body {
             margin-top: 35px;
         }
 
-#menu .e-menu-item.e-active, .e-menu-container .e-menu .e-menu-item.e-active {
-    color: #fff;
-    outline: 0 solid #444c54;
-    outline-offset: 0;
-    background-color: #495057;
-}
+    #menu .e-menu-item.e-active, .e-menu-container .e-menu .e-menu-item.e-active {
+        color: #fff;
+        outline: 0 solid #444c54;
+        outline-offset: 0;
+        background-color: #495057;
+    }
 
 
 
@@ -328,17 +328,17 @@ li {
         background-color: #454544;
     }
 
-    #sidebar li a{
-        text-decoration: none;
-        color: slategrey;
-        font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-        font-size: 25px;
-    }
-    
-    #sidebar li i {
-        color: slategrey;
-        font-size: 25px;
-    }
+#sidebar li a {
+    text-decoration: none;
+    color: slategrey;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 25px;
+}
+
+#sidebar li i {
+    color: slategrey;
+    font-size: 25px;
+}
 
 #sidebar.e-open .profile-wrapper .titles, #sidebar.e-open .app-logo {
     display: flex;
@@ -469,13 +469,13 @@ input[type="file"] {
     border: 0.5px solid #6C757D
 }
 
-input[type="file"]:active, 
-input[type="file"]:focus, 
-input[type="file"]:hover { 
-    background-color: #212529;
-    color: #DFE2E6;
-    border: 0.5px solid #6C757D
-}
+    input[type="file"]:active,
+    input[type="file"]:focus,
+    input[type="file"]:hover {
+        background-color: #212529;
+        color: #DFE2E6;
+        border: 0.5px solid #6C757D
+    }
 
 .label-size {
     font-weight: 500;

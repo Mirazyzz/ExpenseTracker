@@ -17,6 +17,7 @@ public static class DatabaseInitializer
 
     private static void CreateCategories(ExpenseTrackerDbContext context)
     {
+        return;
         if (context.Categories.Any()) return;
 
         for (int i = 0; i < 20; i++)
@@ -37,6 +38,7 @@ public static class DatabaseInitializer
 
     private static void CreateTransfers(ExpenseTrackerDbContext context)
     {
+        return;
         if (context.Transfers.Any()) return;
 
         var categoryIds = context.Categories.Select(x => x.Id).ToList();
