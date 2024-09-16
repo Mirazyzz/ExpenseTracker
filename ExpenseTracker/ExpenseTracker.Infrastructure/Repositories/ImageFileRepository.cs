@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseTracker.Infrastructure.Repositories;
 
-public class ImageFileRepository : RepositoryBase<ImageFile>, IImageFileRepository
+internal class ImageFileRepository : RepositoryBase<ImageFile>, IImageFileRepository
 {
     public ImageFileRepository(ExpenseTrackerDbContext context)
         : base(context)
