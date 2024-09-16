@@ -1,12 +1,14 @@
 using ExpenseTracker.Domain.Enums;
 using ExpenseTracker.Infrastructure;
 using ExpenseTracker.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace ExpenseTracker.Controllers;
 
+[Authorize]
 public class HomeController : Controller
 {
     private readonly ExpenseTrackerDbContext _context;

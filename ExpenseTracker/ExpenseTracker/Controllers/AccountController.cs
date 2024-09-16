@@ -1,125 +1,120 @@
-using System.Threading.Tasks;
+using ExpenseTracker.Infrastructure.Email;
+using ExpenseTracker.Infrastructure.Email.Interfaces;
 using ExpenseTracker.ViewModels.Account;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
-namespace ExpenseTracker.Controllers
+namespace ExpenseTracker.Controllers;
+
+[AllowAnonymous]
+public class AccountController : Controller
 {
-    public class AccountController : Controller
+    private readonly UserManager<IdentityUser> _userManager;
+    private readonly SignInManager<IdentityUser> _signInManager;
+    private readonly IEmailService _emailService;
+
+    public AccountController(
+        UserManager<IdentityUser> userManager,
+        SignInManager<IdentityUser> signInManager,
+        IEmailService emailService)
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly ILogger<AccountController> _logger;
+        _userManager = userManager;
+        _signInManager = signInManager;
+        _emailService = emailService;
+    }
 
-        public AccountController(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
-            ILogger<AccountController> logger)
+    [HttpGet]
+    public IActionResult Login(string? returnUrl = null)
+    {
+        ViewData["ReturnUrl"] = returnUrl;
+
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
+    {
+        ViewData["ReturnUrl"] = returnUrl;
+
+        if (!ModelState.IsValid)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _logger = logger;
-        }
-
-        [HttpGet]
-        public IActionResult Login(string returnUrl = null)
-        {
-            ViewData["ReturnUrl"] = returnUrl;
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
-        {
-            ViewData["ReturnUrl"] = returnUrl;
-            if (ModelState.IsValid)
-            {
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: true);
-                if (result.Succeeded)
-                {
-                    _logger.LogInformation("User logged in.");
-                    return RedirectToLocal(returnUrl);
-                }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToAction(nameof(LoginWith2fa), new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToAction(nameof(Lockout));
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return View(model);
-                }
-            }
-
             return View(model);
         }
 
-        [HttpGet]
-        public IActionResult Register(string returnUrl = null)
+        var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: true);
+        if (result.Succeeded)
         {
-            ViewData["ReturnUrl"] = returnUrl;
-            return View();
+            return RedirectToLocal(returnUrl);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
+        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+        return View(model);
+    }
+
+    [HttpGet]
+    public IActionResult Register(string? returnUrl = null)
+    {
+        ViewData["ReturnUrl"] = returnUrl;
+
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
+    {
+        ViewData["ReturnUrl"] = returnUrl;
+        if (!ModelState.IsValid)
         {
-            ViewData["ReturnUrl"] = returnUrl;
-            if (ModelState.IsValid)
-            {
-                var user = new IdentityUser { UserName = model.Email, Email = model.Email };
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    _logger.LogInformation("User created a new account with password.");
-
-                    // You might want to add email confirmation here
-                    // var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    // var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-                    // await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
-
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation("User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
-                }
-                AddErrors(result);
-            }
-
             return View(model);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Logout()
+        var user = new IdentityUser { UserName = model.Email, Email = model.Email };
+        var result = await _userManager.CreateAsync(user, model.Password);
+
+        var emailMessage = new EmailMessage(
+            ["suhrob.choriyev2022@gmail.com", user.Email],
+            "Registration Confirmation",
+            "What's up my nigga!");
+        _emailService.SendEmail(emailMessage);
+
+        if (result.Succeeded)
         {
-            await _signInManager.SignOutAsync();
-            _logger.LogInformation("User logged out.");
+            await _signInManager.SignInAsync(user, isPersistent: false);
+
+            return RedirectToLocal(returnUrl);
+        }
+
+        AddErrors(result);
+
+        return View(model);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Logout()
+    {
+        await _signInManager.SignOutAsync();
+
+        return RedirectToAction(nameof(Login));
+    }
+
+    private IActionResult RedirectToLocal(string returnUrl)
+    {
+        if (Url.IsLocalUrl(returnUrl))
+        {
+            return Redirect(returnUrl);
+        }
+        else
+        {
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
+    }
 
-        private IActionResult RedirectToLocal(string returnUrl)
+    private void AddErrors(IdentityResult result)
+    {
+        foreach (var error in result.Errors)
         {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            else
-            {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
-            }
+            ModelState.AddModelError(string.Empty, error.Description);
         }
-
-        private void AddErrors(IdentityResult result)
-        {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
-        }
-
-        // Implement other actions like LoginWith2fa,
+    }
+}
