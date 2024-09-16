@@ -396,4 +396,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-/ExpenseTracker/ExpenseTracker/appsettings.json
+# /ExpenseTracker/ExpenseTracker/appsettings.json
