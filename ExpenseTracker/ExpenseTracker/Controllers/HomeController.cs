@@ -146,6 +146,82 @@ public class HomeController : Controller
             })
             .ToList();
     }
+        //400 Bad Request
+    public IActionResult SomeAction1()
+    {
+        var someConditionIsNotMet = true;
+        if (someConditionIsNotMet)
+        {
+            return new StatusCodeResult(400);
+        }
+        // Other logic
+        return View();
+    }
+
+    //401 Unauthorized
+    public IActionResult SomeAction2()
+    {
+        var IsAuthenticated = false;
+        if (!IsAuthenticated)
+        {
+            return Unauthorized(); // This will return a 401 status code
+        }
+        // Other logic
+        return View();
+    }
+
+    //403 Forbidden
+    public IActionResult SomeAction3()
+    {
+        var UserHasPermissionToAccessResource = false;
+        if (!UserHasPermissionToAccessResource)
+        {
+            return new StatusCodeResult(403);
+        }
+        // Other logic
+        return View();
+    }
+
+    //404 Not Found
+    public IActionResult SomeAction4()
+    {
+        var requestedResourceNotFound = true;
+        if (requestedResourceNotFound)
+        {
+            return NotFound();
+        }
+        // Other logic
+        return View();
+    }
+
+    //500 Internal Server Error
+    public IActionResult SomeAction5()
+    {
+        try
+        {
+            // Some code that might throw an exception
+            // ...
+            throw new Exception("Some Exception Occurred");
+            return Ok(); // If successful
+        }
+        catch (Exception ex)
+        {
+            // Log the exception
+            return new StatusCodeResult(500);
+        }
+    }
+
+    //503 Service Unavailable
+    public IActionResult SomeAction6()
+    {
+        var isServiceUnavailable = true;
+        if (isServiceUnavailable)
+        {
+            return new StatusCodeResult(503);
+        }
+        // Other logic
+        return View();
+    }
 }
 
 public class SplineChartData
