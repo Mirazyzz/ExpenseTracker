@@ -1,6 +1,6 @@
+using ExpenseTracker.Application.ViewModels.Account;
 using ExpenseTracker.Infrastructure.Email;
 using ExpenseTracker.Infrastructure.Email.Interfaces;
-using ExpenseTracker.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -45,6 +45,7 @@ public class AccountController : Controller
         var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: true);
         if (result.Succeeded)
         {
+            ViewBag.Email = model.Email;
             return RedirectToLocal(returnUrl);
         }
 
@@ -81,6 +82,7 @@ public class AccountController : Controller
         if (result.Succeeded)
         {
             await _signInManager.SignInAsync(user, isPersistent: false);
+            ViewBag.Email = model.Email;
 
             return RedirectToLocal(returnUrl);
         }

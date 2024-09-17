@@ -1,7 +1,5 @@
 using ExpenseTracker.Extensions;
 using ExpenseTracker.Infrastructure;
-using Microsoft.EntityFrameworkCore;
-using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +9,8 @@ var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
-    app.UseStatusCodePagesWithReExecute("/Error/{0}");
+    app.UseExceptionHandler("/Home/Error");
+    app.UseStatusCodePagesWithReExecute("/Home/StatusCode", "?code={0}");
 
     app.UseHsts();
 }

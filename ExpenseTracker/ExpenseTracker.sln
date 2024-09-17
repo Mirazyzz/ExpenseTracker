@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseTracker.Domain", "Ex
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseTracker.Infrastructure", "ExpenseTracker.Infrastructure\ExpenseTracker.Infrastructure.csproj", "{4B94B782-7E01-4D55-862B-EBB4D024A7C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseTracker.Apllication", "ExpenseTracker.Apllication\ExpenseTracker.Apllication.csproj", "{26833A69-1969-483A-A400-805C2FDF65B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseTracker.Application", "ExpenseTracker.Apllication\ExpenseTracker.Application.csproj", "{26833A69-1969-483A-A400-805C2FDF65B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
