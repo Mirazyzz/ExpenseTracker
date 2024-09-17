@@ -1,8 +1,5 @@
-﻿using ExpenseTracker.Infrastructure.Email;
-using ExpenseTracker.Infrastructure.Email.Interfaces;
+﻿using ExpenseTracker.Application.Extensions;
 using ExpenseTracker.Infrastructure.Extensions;
-using ExpenseTracker.Stores;
-using ExpenseTracker.Stores.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Syncfusion.Licensing;
@@ -14,9 +11,7 @@ public static class DependencyInjection
     public static IServiceCollection ConfigureService(this IServiceCollection services, IConfiguration configuration)
     {
         services.RegisterInfrastructure(configuration);
-        services.AddScoped<ICategoryStore, CategoryStore>();
-        services.AddScoped<ITransferStore, TransferStore>();
-        services.AddScoped<IEmailService, EmailService>();
+        services.RegisterApplication(configuration);
 
         AddControllers(services);
         AddProviders(configuration);

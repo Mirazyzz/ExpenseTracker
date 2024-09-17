@@ -1,6 +1,6 @@
+using ExpenseTracker.Application.ViewModels.Account;
 using ExpenseTracker.Infrastructure.Email;
 using ExpenseTracker.Infrastructure.Email.Interfaces;
-using ExpenseTracker.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

@@ -1,7 +1,5 @@
 using ExpenseTracker.Extensions;
 using ExpenseTracker.Infrastructure;
-using Microsoft.EntityFrameworkCore;
-using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 

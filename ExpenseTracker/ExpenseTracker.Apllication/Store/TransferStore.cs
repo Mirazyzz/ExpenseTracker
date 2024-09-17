@@ -1,10 +1,11 @@
-﻿using ExpenseTracker.Domain.Entities;
+﻿using ExpenseTracker.Application.Mappings;
+using ExpenseTracker.Application.Store.Interfaces;
+using ExpenseTracker.Application.ViewModels.Transfer;
+using ExpenseTracker.Domain.Entities;
 using ExpenseTracker.Domain.Interfaces;
-using ExpenseTracker.Mappings;
-using ExpenseTracker.Stores.Interfaces;
-using ExpenseTracker.ViewModels.Transfer;
+using Microsoft.AspNetCore.Http;
 
-namespace ExpenseTracker.Stores;
+namespace ExpenseTracker.Application.Store;
 
 public class TransferStore : ITransferStore
 {

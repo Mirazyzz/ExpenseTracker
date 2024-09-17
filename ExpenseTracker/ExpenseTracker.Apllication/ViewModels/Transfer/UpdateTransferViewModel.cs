@@ -1,4 +1,4 @@
-﻿namespace ExpenseTracker.ViewModels.Transfer;
+﻿namespace ExpenseTracker.Application.ViewModels.Transfer;
 
 public class UpdateTransferViewModel : CreateTransferViewModel
 {

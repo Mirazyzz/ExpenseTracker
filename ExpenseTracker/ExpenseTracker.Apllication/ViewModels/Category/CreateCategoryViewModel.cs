@@ -1,6 +1,6 @@
 ﻿using ExpenseTracker.Domain.Enums;
 
-namespace ExpenseTracker.ViewModels.Category;
+namespace ExpenseTracker.Application.ViewModels.Category;
 
 public class CreateCategoryViewModel
 {
