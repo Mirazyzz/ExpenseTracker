@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,38 +15,14 @@
     <script src="https://cdn.syncfusion.com/ej2/26.2.4/dist/ej2.min.js"></script>
 </head>
 <body class="e-bigger">
-    <partial name="_Sidebar" />
-
-    <div class="dock-target">
-        <nav class="navbar sticky-top">
-            <div class="container-fluid py-2 px-4">
-                <div class="search-container">
-                    <input type="text" name="search" placeholder="Search..." class="search-input">
-                    <a href="#" class="search-btn">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </a>
-                </div>
-                <div>
-                    <i class="fa-solid fa-bell"></i>
-                    <i class="fa-solid fa-message"></i>
-                    <img class="profile-pic" src="~/profile.jpg" />
-                </div>
-            </div>
-        </nav>
-
-        <div class="main-content">
-            <div class="container mt-5 mb-5">
-                <div class="row justify-content-center">
-                    <div class="@(ViewData["isDashboard"] == null ? "col-md-10" : "col-md-12")">
-                        <main role="main" class="pb-3">
-                            @RenderBody()
-                        </main>
-                    </div>
-                </div>
-            </div>
+     <div class="container">
+        <div class="row d-flex flex-column min-vh-100 justify-content-center align-items-center">
+               <main role="main" class="pb-3">
+                    @RenderBody()
+               </main>
         </div>
-    </div>
-   
+     </div>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
