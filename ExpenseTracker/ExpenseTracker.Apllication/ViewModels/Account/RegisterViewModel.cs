@@ -1,6 +1,6 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace ExpenseTracker.ViewModels.Account
+namespace ExpenseTracker.Application.ViewModels.Account
 {
     public class RegisterViewModel
     {

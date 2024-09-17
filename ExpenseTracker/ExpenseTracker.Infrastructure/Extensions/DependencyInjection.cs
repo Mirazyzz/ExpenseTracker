@@ -1,4 +1,6 @@
 ﻿using ExpenseTracker.Domain.Interfaces;
+using ExpenseTracker.Infrastructure.Email;
+using ExpenseTracker.Infrastructure.Email.Interfaces;
 using ExpenseTracker.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +17,7 @@ public static class DependencyInjection
         services.AddScoped<ICommonRepository, CommonRepository>();
         services.AddScoped<ITransferRepository, TransferRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<IEmailService, EmailService>();
 
         services.AddDbContext<ExpenseTrackerDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("ExpenseTrackerDbContextConnection")));
