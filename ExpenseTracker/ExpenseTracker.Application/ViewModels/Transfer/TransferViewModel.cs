@@ -1,6 +1,6 @@
-﻿using ExpenseTracker.ViewModels.Category;
+﻿using ExpenseTracker.Application.ViewModels.Category;
 
-namespace ExpenseTracker.ViewModels.Transfer;
+namespace ExpenseTracker.Application.ViewModels.Transfer;
 
 public class TransferViewModel
 {

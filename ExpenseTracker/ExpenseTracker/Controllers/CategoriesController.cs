@@ -1,6 +1,6 @@
-﻿using ExpenseTracker.Mappings;
-using ExpenseTracker.Stores.Interfaces;
-using ExpenseTracker.ViewModels.Category;
+﻿using ExpenseTracker.Application.Mappings;
+using ExpenseTracker.Application.Stores.Interfaces;
+using ExpenseTracker.Application.ViewModels.Category;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

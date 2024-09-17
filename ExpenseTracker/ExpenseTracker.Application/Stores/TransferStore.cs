@@ -1,15 +1,16 @@
-﻿using ExpenseTracker.Domain.Entities;
+﻿using ExpenseTracker.Application.Mappings;
+using ExpenseTracker.Application.Stores.Interfaces;
+using ExpenseTracker.Application.ViewModels.Category;
+using ExpenseTracker.Application.ViewModels.Transfer;
+using ExpenseTracker.Domain.Entities;
 using ExpenseTracker.Domain.Interfaces;
-using ExpenseTracker.Mappings;
-using ExpenseTracker.Stores.Interfaces;
-using ExpenseTracker.ViewModels.Transfer;
+using Microsoft.AspNetCore.Http;
 
-namespace ExpenseTracker.Stores;
+namespace ExpenseTracker.Application.Stores;
 
 public class TransferStore : ITransferStore
 {
     private readonly ICommonRepository _repository;
-
     public TransferStore(ICommonRepository repository)
     {
         _repository = repository;
@@ -87,4 +88,8 @@ public class TransferStore : ITransferStore
         _repository.Transfers.Delete(id);
         _repository.SaveChanges();
     }
+
 }
+
+
+

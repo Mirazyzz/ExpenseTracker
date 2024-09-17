@@ -1,9 +1,9 @@
-﻿using ExpenseTracker.Domain.Interfaces;
-using ExpenseTracker.Mappings;
-using ExpenseTracker.Stores.Interfaces;
-using ExpenseTracker.ViewModels.Category;
+﻿using ExpenseTracker.Application.Mappings;
+using ExpenseTracker.Application.Stores.Interfaces;
+using ExpenseTracker.Application.ViewModels.Category;
+using ExpenseTracker.Domain.Interfaces;
 
-namespace ExpenseTracker.Stores;
+namespace ExpenseTracker.Application.Stores;
 
 public class CategoryStore : ICategoryStore
 {
@@ -59,3 +59,4 @@ public class CategoryStore : ICategoryStore
         _repository.SaveChanges();
     }
 }
+

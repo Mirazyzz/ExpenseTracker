@@ -2,12 +2,11 @@
 using ExpenseTracker.Infrastructure.Email.Interfaceslé;
 using ExpenseTracker.Infrastructure.Email;
 using ExpenseTracker.Infrastructure.Extensions;
-using ExpenseTracker.Stores;
-using ExpenseTracker.Stores.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Syncfusion.Licensing;
+using ExpenseTracker.Application.Stores.Interfaces;
+using ExpenseTracker.Application.Stores;
 
 namespace ExpenseTracker.Extensions;
 

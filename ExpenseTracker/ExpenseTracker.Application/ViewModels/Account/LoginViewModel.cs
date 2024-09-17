@@ -1,12 +1,12 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace ExpenseTracker.ViewModels.Account;
+namespace ExpenseTracker.Application.ViewModels.Account;
 
 public class LoginViewModel
 {
     [Required(ErrorMessage = "Email is required")]
     [EmailAddress(ErrorMessage = "Invalid email address")]
-    public  required string Email { get; set; }
+    public required string Email { get; set; }
 
     [Required(ErrorMessage = "Password is required")]
     [DataType(DataType.Password)]

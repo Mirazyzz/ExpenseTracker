@@ -1,10 +1,9 @@
 ﻿using ExpenseTracker.Domain.Enums;
 
-namespace ExpenseTracker.ViewModels.Category;
+namespace ExpenseTracker.Application.ViewModels.Category;
 
-public class CategoryViewModel
+public class CreateCategoryViewModel
 {
-    public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string? Description { get; set; }
     public DateTime CreatedAt { get; set; }
