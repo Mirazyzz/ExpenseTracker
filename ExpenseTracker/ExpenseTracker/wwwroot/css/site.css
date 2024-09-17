@@ -483,6 +483,18 @@ input[type="file"] {
     color: #D0D3D8;
 }
 
-/*.search-container:hover {
-    animation: hoverShake 0.15s linear 2;
-}*/
+#bg-green {
+    background-color: #188251;
+    color: #DFE2E6;
+    width:200px;
+    height:35px;
+    padding-bottom:2em;    
+}
+
+#bg-red {
+    background-color: #C22343;
+    color: #DFE2E6;
+    width: 200px;
+    height: 35px;
+    padding-bottom: 2em;
+}
