@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseTracker.Controllers;
-
 public class TransfersController : Controller
 {
     public const int MaxFileSize = 2 * 1024 * 1024; // 2 MB
@@ -24,7 +23,6 @@ public class TransfersController : Controller
         _store = store;
         _categoryStore = categoryStore;
     }
-
 
     public IActionResult Index(int? categoryId, string? search)
     {

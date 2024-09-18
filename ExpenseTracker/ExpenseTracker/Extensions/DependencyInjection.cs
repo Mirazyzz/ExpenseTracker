@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Syncfusion.Licensing;
 using ExpenseTracker.Application.Stores.Interfaces;
 using ExpenseTracker.Application.Stores;
+using ExpenseTracker.Filters;
 
 namespace ExpenseTracker.Extensions;
 
@@ -47,6 +48,7 @@ public static class DependencyInjection
                     .RequireAuthenticatedUser()
                     .Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
+                options.Filters.Add(new ExceptionHandlerFilter()); 
             })
             .AddJsonOptions(x =>
             {

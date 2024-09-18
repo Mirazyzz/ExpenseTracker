@@ -1,25 +1,20 @@
-﻿using ExpenseTracker.Infrastructure.Email.Interfaceslé;
+﻿using ExpenseTracker.Infrastructure.Configurations;
+using ExpenseTracker.Infrastructure.Email.Interfaceslé;
 using MailKit.Net.Smtp;
+using Microsoft.CodeAnalysis.Options;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using MimeKit;
 
 namespace ExpenseTracker.Infrastructure.Email
 {
     public class EmailService : IEmailService
     {
-        public EmailService(IConfiguration configuration)
+        private readonly EmailOptions _options;
+        public EmailService(IOptionsMonitor<EmailOptions> option)
         {
-            _from = configuration.GetValue<string>("MailSettings:From") ?? throw new InvalidOperationException("Invalid mail configuration");
-            _smtpServer = configuration.GetValue<string>("MailSettings:SmtpServer") ?? throw new InvalidOperationException("Invalid mail configuration");
-            _port = configuration.GetValue<int>("MailSettings:Port");
-            _username = configuration.GetValue<string>("MailSettings:username") ?? throw new InvalidOperationException("Invalid mail configuration");
-            _password = configuration.GetValue<string>("MailSettings:Password") ?? throw new InvalidOperationException("Invalid mail configuration");
+            _options = option.CurrentValue;
         }
-        private readonly string _from;
-        private readonly string _smtpServer;
-        private readonly int _port;
-        private readonly string _username;
-        private readonly string _password;
         public void SendEmail(EmailMessage message)
         {
             var emailMessage = CreateEmailMessage(message);
@@ -29,7 +24,7 @@ namespace ExpenseTracker.Infrastructure.Email
         private MimeMessage CreateEmailMessage(EmailMessage message)
         {
             var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress("Expense Tracker", _from));
+            emailMessage.From.Add(new MailboxAddress("Expense Tracker", _options.From));
             emailMessage.To.AddRange(message.To);
             emailMessage.Subject = message.Subject;
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Text) { Text = message.Content };
@@ -42,9 +37,9 @@ namespace ExpenseTracker.Infrastructure.Email
 
             try
             {
-                client.Connect(_smtpServer, _port, true);
+                client.Connect(_options.SmtpServer, _options.Port, true);
                 client.AuthenticationMechanisms.Remove("XOAUTH2");
-                client.Authenticate(_username, _password);
+                client.Authenticate(_options.UserName, _options.Password);
                 client.Send(mailMessage);
             }
             catch (Exception ex)

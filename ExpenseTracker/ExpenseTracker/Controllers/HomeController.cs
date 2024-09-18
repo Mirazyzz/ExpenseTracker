@@ -27,6 +27,9 @@ public class HomeController : Controller
 
         return View();
     }
+    
+    public IActionResult NotFoundError() =>  View("NotFound");
+    public IActionResult InternalError() => View("Error");
 
     public IActionResult Privacy()
     {
@@ -34,11 +37,7 @@ public class HomeController : Controller
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
-
+   
     private void PopulateWidgets()
     {
         var totalIncome = _context.Transfers
@@ -52,7 +51,6 @@ public class HomeController : Controller
         ViewBag.TotalIncome = totalIncome;
         ViewBag.TotalExpense = totalExpense;
     }
-
     private void PopulateSplineChartData()
     {
         var allTransfers = _context.Transfers
@@ -115,7 +113,6 @@ public class HomeController : Controller
                         })
                         .ToList();
     }
-
     private void PopulateDoughnutChart()
     {
         ViewBag.DoughnutChartData = _context.Transfers
@@ -130,7 +127,6 @@ public class HomeController : Controller
                 .OrderByDescending(l => l.amount)
                 .ToList();
     }
-
     private void PopulateRecentTransactions()
     {
         ViewBag.RecentTransfers = _context.Transfers
@@ -147,7 +143,6 @@ public class HomeController : Controller
             .ToList();
     }
 }
-
 public class SplineChartData
 {
     public string day;

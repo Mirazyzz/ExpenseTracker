@@ -10,18 +10,6 @@
     <h4>Transfer</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Note)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Note)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Amount)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Amount)
-        </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Category.Name)
         </dt>
@@ -34,15 +22,29 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Category.Type)
         </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+        
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Note)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Note)
+        </dd>
     </dl>
 </div>
 
 <div>
-    <h3>Upload Images</h3>
+    
     <div id="uploaded-images">
         @if (Model.Images == null || !Model.Images.Any())
         {
-            return;
+
+            //return;
         }
 
         @foreach(var image in Model.Images)
@@ -53,6 +55,6 @@
 </div>
 
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-success" asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a class="btn btn-success" asp-action="Index">Back to List</a>
 </div>
