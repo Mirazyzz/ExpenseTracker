@@ -1,13 +1,9 @@
-﻿using ExpenseTracker.Infrastructure;
-using ExpenseTracker.Infrastructure.Email.Interfaceslé;
-using ExpenseTracker.Infrastructure.Email;
+﻿using ExpenseTracker.Application.Extensions;
+using ExpenseTracker.Filters;
 using ExpenseTracker.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Syncfusion.Licensing;
-using ExpenseTracker.Application.Stores.Interfaces;
-using ExpenseTracker.Application.Stores;
-using ExpenseTracker.Filters;
 
 namespace ExpenseTracker.Extensions;
 
@@ -16,9 +12,7 @@ public static class DependencyInjection
     public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.RegisterInfrastructure(configuration);
-        services.AddScoped<ICategoryStore, CategoryStore>();
-        services.AddScoped<ITransferStore, TransferStore>();
-        services.AddScoped<IEmailService, EmailService>();
+        services.RegisterApplication(configuration);
 
         AddControllers(services);
         AddProviders(configuration);
@@ -31,6 +25,8 @@ public static class DependencyInjection
             options.AccessDeniedPath = "/Account/AccessDenied";
             options.SlidingExpiration = true;
         });
+
+        services.AddHttpContextAccessor();
 
         return services;
     }
@@ -48,7 +44,9 @@ public static class DependencyInjection
                     .RequireAuthenticatedUser()
                     .Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
-                options.Filters.Add(new ExceptionHandlerFilter()); 
+                options.Filters.Add(new ExceptionHandlerFilter());
+                options.Filters.Add(new HeaderResultFilter());
+                options.Filters.Add(new UserRequestFilter());
             })
             .AddJsonOptions(x =>
             {
