@@ -10,13 +10,13 @@ namespace ExpenseTracker.Controllers;
 [AllowAnonymous]
 public class AccountController : Controller
 {
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly SignInManager<IdentityUser> _signInManager;
+    private readonly UserManager<IdentityUser<Guid>> _userManager;
+    private readonly SignInManager<IdentityUser<Guid>> _signInManager;
     private readonly IEmailService _emailService;
 
     public AccountController(
-        UserManager<IdentityUser> userManager,
-        SignInManager<IdentityUser> signInManager,
+        UserManager<IdentityUser<Guid>> userManager,
+        SignInManager<IdentityUser<Guid>> signInManager,
         IEmailService emailService)
     {
         _userManager = userManager;
@@ -59,7 +59,7 @@ public class AccountController : Controller
 
         return View();
     }
-
+    
     [HttpPost]
     public async Task<IActionResult> Register(RegisterViewModel model, string? returnUrl = null)
     {
@@ -70,7 +70,7 @@ public class AccountController : Controller
             return View(model);
         }
 
-        var user = new IdentityUser { UserName = model.Email, Email = model.Email };
+        var user = new IdentityUser<Guid> { Id = Guid.NewGuid(), UserName = model.Email, Email = model.Email };
         var result = await _userManager.CreateAsync(user, model.Password);
 
         if (result.Succeeded)
