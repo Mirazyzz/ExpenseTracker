@@ -11,10 +11,10 @@ internal class CategoryRepository : RepositoryBase<Category>, ICategoryRepositor
     {
     }
 
-    public List<Category> GetAll(string? search)
+    public List<Category> GetAll(string? search, Guid userId)
     {
         var query = _context.Categories
-            .AsQueryable()
+            .Where(x => x.UserId == userId)
             .AsNoTracking();
 
         if (!string.IsNullOrWhiteSpace(search))

@@ -8,10 +8,11 @@ internal class TransferRepository : RepositoryBase<Transfer>, ITransferRepositor
 {
     public TransferRepository(ExpenseTrackerDbContext context) : base(context) { }
 
-    public List<Transfer> GetAll(int? categoryId, string? search)
+    public List<Transfer> GetAll(int? categoryId, string? search, Guid userId)
     {
         var query = _context.Transfers
             .AsNoTracking()
+            .Where(t => t.UserId == userId)
             .AsQueryable();
 
         if (!string.IsNullOrEmpty(search))
@@ -32,14 +33,15 @@ internal class TransferRepository : RepositoryBase<Transfer>, ITransferRepositor
         return transfers;
     }
 
-    public List<Transfer> GetAll(decimal? minAmount, decimal? maxAmount)
+    public List<Transfer> GetAll(decimal? minAmount, decimal? maxAmount, Guid userId)
     {
         if (minAmount is null && maxAmount is null)
         {
-            return GetAll();
+            return GetAll(userId);
         }
 
-        var transfers = _context.Transfers.Where(x => x.Amount >= minAmount && x.Amount <= maxAmount ||
+        var transfers = _context.Transfers.Where(x => x.UserId == userId &&
+        (x.Amount >= minAmount && x.Amount <= maxAmount) ||
         ((minAmount == null && maxAmount != null) && x.Amount <= maxAmount) ||
         ((minAmount != null && maxAmount == null) && x.Amount >= minAmount)
         ).ToList();
