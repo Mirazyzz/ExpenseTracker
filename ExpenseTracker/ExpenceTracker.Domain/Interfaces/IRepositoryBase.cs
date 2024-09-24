@@ -4,10 +4,10 @@ namespace ExpenseTracker.Domain.Interfaces
 {
     public interface IRepositoryBase<TEntity> where TEntity : EntityBase
     {
-        List<TEntity> GetAll();
-        TEntity GetById(int id);
+        List<TEntity> GetAll(Guid userId);
+        TEntity GetById(int id, Guid userId);
         TEntity Create(TEntity entity);
         void Update(TEntity entity);
-        void Delete(int id);
+        void Delete(int id, Guid userId);
     }
 }
