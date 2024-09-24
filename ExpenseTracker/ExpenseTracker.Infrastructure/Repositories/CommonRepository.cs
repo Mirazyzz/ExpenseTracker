@@ -2,7 +2,7 @@
 
 namespace ExpenseTracker.Infrastructure.Repositories;
 
-public class CommonRepository : ICommonRepository
+internal class CommonRepository : ICommonRepository
 {
     private readonly ExpenseTrackerDbContext _context;
 

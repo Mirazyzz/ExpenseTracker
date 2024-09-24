@@ -3,67 +3,68 @@ using ExpenseTracker.Domain.Exceptions;
 using ExpenseTracker.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace ExpenseTracker.Infrastructure.Repositories
+namespace ExpenseTracker.Infrastructure.Repositories;
+
+internal abstract class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : EntityBase
 {
-    public abstract class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : EntityBase
+    protected readonly ExpenseTrackerDbContext _context;
+
+    protected RepositoryBase(ExpenseTrackerDbContext context)
     {
-        protected readonly ExpenseTrackerDbContext _context;
+        _context = context;
+    }
 
-        protected RepositoryBase(ExpenseTrackerDbContext context)
+    public TEntity Create(TEntity entity)
+    {
+        ArgumentNullException.ThrowIfNull(entity);
+
+        _context.Set<TEntity>().Add(entity);
+
+        return entity;
+    }
+
+    public void Delete(int id, Guid userId)
+    {
+        var entity = GetOrThrow(id, userId);
+
+        _context.Set<TEntity>().Remove(entity);
+    }
+
+
+    public List<TEntity> GetAll(Guid userId)
+    {
+
+        var entities = _context.Set<TEntity>()
+        .AsNoTracking()
+        .OrderByDescending(x => x.Id ).Where(x => x.UserId==userId)
+        .ToList();
+
+        return entities;
+    }
+
+    public TEntity GetById(int id, Guid userId)
+    {
+        var entity = GetOrThrow(id,userId);
+
+        return entity;
+    }
+
+    public void Update(TEntity entity)
+    {
+        ArgumentNullException.ThrowIfNull(entity);
+
+        _context.Set<TEntity>().Update(entity);
+    }
+
+    private TEntity GetOrThrow(int id, Guid userId)
+    {
+        var entity = _context.Set<TEntity>().AsNoTracking().Where(x => x.UserId == userId).FirstOrDefault(x => x.Id == id);
+
+        if (entity is null)
         {
-            _context = context;
+            throw new EntityNotFoundException($"{typeof(TEntity)} with id:{id} is not found");
         }
 
-        public TEntity Create(TEntity entity)
-        {
-            ArgumentNullException.ThrowIfNull(entity);
-
-            _context.Set<TEntity>().Add(entity);
-
-            return entity;
-        }
-
-        public void Delete(int id)
-        {
-            var entity = GetOrThrow(id);
-
-            _context.Set<TEntity>().Remove(entity);
-        }
-
-        public List<TEntity> GetAll()
-        {
-            var entities = _context.Set<TEntity>()
-            .AsNoTracking()
-            .OrderByDescending(x => x.Id)
-            .ToList();
-
-            return entities;
-        }
-
-        public TEntity GetById(int id)
-        {
-            var entity = GetOrThrow(id);
-
-            return entity;
-        }
-
-        public void Update(TEntity entity)
-        {
-            ArgumentNullException.ThrowIfNull(entity);
-
-            _context.Set<TEntity>().Update(entity);
-        }
-
-        private TEntity GetOrThrow(int id)
-        {
-            var entity = _context.Set<TEntity>().AsNoTracking().FirstOrDefault(x => x.Id == id);
-
-            if (entity is null)
-            {
-                throw new EntityNotFoundException($"{typeof(TEntity)} with id:{id} is not found");
-            }
-
-            return entity;
-        }
+        return entity;
     }
 }
