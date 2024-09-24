@@ -1,26 +1,21 @@
 using ExpenseTracker.Extensions;
-using ExpenseTracker.Infrastructure;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.ConfigureServices(builder.Configuration);
 
+builder.Services.AddControllersWithViews();
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    app.UseStatusCodePagesWithReExecute("/Home/StatusCode", "?code={0}");
-
     app.UseHsts();
 }
 else
 {
-    using var scope = app.Services.CreateScope();
-    var context = scope.ServiceProvider.GetRequiredService<ExpenseTrackerDbContext>();
-    DatabaseInitializer.SeedDatabase(context);
+    app.UseDeveloperExceptionPage();
+    app.UseDatabaseInitializer();
 }
 
 app.UseHttpsRedirection();
