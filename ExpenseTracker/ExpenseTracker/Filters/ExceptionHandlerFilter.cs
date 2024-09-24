@@ -16,25 +16,26 @@ public class ExceptionHandlerFilter : IExceptionFilter
         var actionName = GetActionName(statusCode);
 
         context.Result = new RedirectToActionResult(actionName, "Home", null);
-
         context.ExceptionHandled = true;
-
     }
+
     private static int GetStatusCode(Exception exception)
     {
-        if(exception is EntityNotFoundException)
+        if (exception is EntityNotFoundException)
         {
             return 404;
-
         }
+
         return 500;
     }
+
     private static string GetActionName(int statusCode)
     {
-        if(statusCode == 404)
+        if (statusCode == 404)
         {
             return "NotFoundError";
         }
+
         return "InternalError";
     }
 }
