@@ -1,13 +1,11 @@
 using ExpenseTracker.Domain.Enums;
 using ExpenseTracker.Infrastructure;
-using ExpenseTracker.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 
 namespace ExpenseTracker.Controllers;
+
 [Authorize]
 public class HomeController : Controller
 {
@@ -17,27 +15,30 @@ public class HomeController : Controller
     {
         _context = context;
     }
-
     public IActionResult Index()
     {
-        PopulateWidgets();
-        PopulateSplineChartData();
-        PopulateDoughnutChart();
-        PopulateRecentTransactions();
+        //PopulateWidgets();
+        //PopulateSplineChartData();
+        //PopulateDoughnutChart();
+        //PopulateRecentTransactions();
 
         return View();
     }
-    
-    public IActionResult NotFoundError() =>  View("NotFound");
+
+    [Route("Home/Error")]
+    public IActionResult Error(int? statusCode = 500) =>
+        statusCode switch
+        {
+            404 => View("NotFound"),
+            _ => View("Error")
+        };
+
+    [Route("Home/NotFound")]
+    public IActionResult NotFoundError() => View("NotFound");
+
+    [Route("Home/InternalError")]
     public IActionResult InternalError() => View("Error");
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-   
     private void PopulateWidgets()
     {
         var totalIncome = _context.Transfers
@@ -51,6 +52,7 @@ public class HomeController : Controller
         ViewBag.TotalIncome = totalIncome;
         ViewBag.TotalExpense = totalExpense;
     }
+
     private void PopulateSplineChartData()
     {
         var allTransfers = _context.Transfers
@@ -113,6 +115,7 @@ public class HomeController : Controller
                         })
                         .ToList();
     }
+
     private void PopulateDoughnutChart()
     {
         ViewBag.DoughnutChartData = _context.Transfers
@@ -127,6 +130,7 @@ public class HomeController : Controller
                 .OrderByDescending(l => l.amount)
                 .ToList();
     }
+
     private void PopulateRecentTransactions()
     {
         ViewBag.RecentTransfers = _context.Transfers
@@ -143,6 +147,7 @@ public class HomeController : Controller
             .ToList();
     }
 }
+
 public class SplineChartData
 {
     public string day;
