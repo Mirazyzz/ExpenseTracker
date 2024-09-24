@@ -1,7 +1,6 @@
 ﻿using ExpenseTracker.Infrastructure.Configurations;
 using ExpenseTracker.Infrastructure.Email.Interfaces;
 using MailKit.Net.Smtp;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using MimeKit;
 
@@ -13,7 +12,7 @@ public class EmailService : IEmailService
 
     public EmailService(IOptionsMonitor<EmailOptions> options)
     {
-         _options = options.CurrentValue;
+        _options = options.CurrentValue;
     }
 
     public void SendEmail(EmailMessage message)

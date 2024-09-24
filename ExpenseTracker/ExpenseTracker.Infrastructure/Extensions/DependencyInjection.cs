@@ -24,7 +24,7 @@ public static class DependencyInjection
             options.UseSqlServer(configuration.GetConnectionString("ExpenseTrackerDbContextConnection")));
 
         services
-            .AddIdentity<IdentityUser, IdentityRole>(options =>
+            .AddIdentity<IdentityUser<Guid>, IdentityRole<Guid>>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.SignIn.RequireConfirmedPhoneNumber = false;
