@@ -1,6 +1,4 @@
-﻿@using ExpenseTracker.Domain.Enums
-
-@model ExpenseTracker.Application.ViewModels.Transfer.UpdateTransferViewModel
+﻿@model ExpenseTracker.Application.Requests.Transfer.UpdateTransferRequest
 
 @{
     ViewData["Title"] = "Edit";
@@ -31,7 +29,7 @@
                     </ejs-combobox>
                 </div>
             </div>
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="TransferId" />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
