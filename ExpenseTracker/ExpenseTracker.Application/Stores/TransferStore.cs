@@ -1,4 +1,5 @@
-﻿using ExpenseTracker.Application.ViewModels.Transfer;
+﻿using ExpenseTracker.Application.Requests.Transfer;
+using ExpenseTracker.Application.ViewModels.Transfer;
 using ExpenseTracker.Domain.Entities;
 using ExpenseTracker.Domain.Interfaces;
 using ExpenseTracker.Mappings;
@@ -16,37 +17,37 @@ public class TransferStore : ITransferStore
         _repository = repository;
     }
 
-    public List<TransferViewModel> GetAll(int? categoryId, string? search)
+    public List<TransferViewModel> GetAll(GetTransfersRequest request)
     {
-        var transfers = _repository.Transfers.GetAll(categoryId, search);
+        var transfers = _repository.Transfers.GetAll(request.CategoryId, request.Search, request.UserId);
         var viewModels = transfers
             .Select(x => x.ToViewModel()).ToList();
 
         return viewModels;
     }
 
-    public TransferViewModel GetById(int id)
+    public TransferViewModel GetById(TransferRequest request)
     {
-        var transfer = _repository.Transfers.GetById(id);
-        transfer.Images = _repository.ImageFiles.GetByTransferId(id);
+        var transfer = _repository.Transfers.GetById(request.TransferId, request.UserId);
+        transfer.Images = _repository.ImageFiles.GetByTransferId(request.TransferId);
         var viewModel = transfer.ToViewModel();
 
         return viewModel;
     }
 
-    public UpdateTransferViewModel GetForUpdate(int id)
+    public TransferViewModel GetForUpdate(UpdateTransferRequest request)
     {
-        var transfer = _repository.Transfers.GetById(id);
-        var viewModel = transfer.ToUpdateViewModel();
+        var transfer = _repository.Transfers.GetById(request.TransferId, request.UserId);
+        var viewModel = transfer.ToViewModel();
 
         return viewModel;
     }
 
-    public TransferViewModel Create(CreateTransferViewModel transfer, IEnumerable<IFormFile> attachments)
+    public TransferViewModel Create(CreateTransferRequest request, IEnumerable<IFormFile> attachments)
     {
-        ArgumentNullException.ThrowIfNull(transfer);
+        ArgumentNullException.ThrowIfNull(request);
 
-        var entity = transfer.ToEntity();
+        var entity = request.ToEntity();
 
         var createdTransfer = _repository.Transfers.Create(entity);
 
@@ -68,24 +69,24 @@ public class TransferStore : ITransferStore
 
         _repository.SaveChanges(); // ACID -> Atomicity
 
-        createdTransfer.Category = _repository.Categories.GetById(transfer.CategoryId);
+        createdTransfer.Category = _repository.Categories.GetById(request.CategoryId, request.UserId);
         var viewModel = createdTransfer.ToViewModel();
 
         return viewModel;
     }
 
-    public void Update(UpdateTransferViewModel transfer)
+    public void Update(UpdateTransferRequest request)
     {
-        ArgumentNullException.ThrowIfNull(transfer);
+        ArgumentNullException.ThrowIfNull(request);
 
-        var entity = transfer.ToEntity();
+        var entity = request.ToEntity();
 
         _repository.Transfers.Update(entity);
         _repository.SaveChanges();
     }
-    public void Delete(int id)
+    public void Delete(TransferRequest request)
     {
-        _repository.Transfers.Delete(id);
+        _repository.Transfers.Delete(request.TransferId, request.UserId);
         _repository.SaveChanges();
     }
 }
