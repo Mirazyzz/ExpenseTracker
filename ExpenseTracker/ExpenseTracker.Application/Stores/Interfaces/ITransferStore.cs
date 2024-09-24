@@ -1,14 +1,16 @@
-﻿using ExpenseTracker.Application.ViewModels.Transfer;
+﻿using ExpenseTracker.Application.Requests.Category;
+using ExpenseTracker.Application.Requests.Transfer;
+using ExpenseTracker.Application.ViewModels.Transfer;
 using Microsoft.AspNetCore.Http;
 
-namespace ExpenseTracker.Application.Stores.Interfaces;
-
-public interface ITransferStore
+namespace ExpenseTracker.Stores.Interfaces
 {
-    List<TransferViewModel> GetAll(int? categoryId, string? search);
-    TransferViewModel GetById(int id);
-    UpdateTransferViewModel GetForUpdate(int id);
-    TransferViewModel Create(CreateTransferViewModel transfer, IEnumerable<IFormFile> attachments);
-    void Update(UpdateTransferViewModel transfer);
-    void Delete(int id);
+    public interface ITransferStore
+    {
+        List<TransferViewModel> GetAll(GetTransfersRequest request, CategoryRequest category);
+        TransferViewModel GetById(TransferRequest request);
+        TransferViewModel Create(CreateTransferRequest transfer, IEnumerable<IFormFile> attachments);
+        void Update(UpdateTransferRequest transfer);
+        void Delete(TransferRequest request);
+    }
 }

@@ -1,7 +1,8 @@
-﻿using ExpenseTracker.Application.ViewModels.Transfer;
+﻿using ExpenseTracker.Application.Requests.Transfer;
+using ExpenseTracker.Application.ViewModels.Transfer;
 using ExpenseTracker.Domain.Entities;
 
-namespace ExpenseTracker.Application.Mappings;
+namespace ExpenseTracker.Mappings;
 
 public static class TransferMappings
 {
@@ -18,26 +19,24 @@ public static class TransferMappings
         };
     }
 
-    public static UpdateTransferViewModel ToUpdateViewModel(this Transfer transfer)
+    public static TransferRequest ToTransferRequest(this UpdateTransferRequest updateTransferRequest)
     {
-        return new UpdateTransferViewModel
+        return new TransferRequest
         {
-            Id = transfer.Id,
-            Note = transfer.Note,
-            Amount = transfer.Amount,
-            Date = transfer.Date,
-            CategoryId = transfer.Category.Id
+            TransferId = updateTransferRequest.TransferId,
+            UserId = updateTransferRequest.UserId,
         };
     }
 
-    public static Transfer ToEntity(this CreateTransferViewModel transfer)
+    public static Transfer ToEntity(this CreateTransferRequest transfer)
     {
         return new Transfer
-        {
+        {    
+            CategoryId = transfer.CategoryId,
+            UserId=transfer.UserId,
             Note = transfer.Note,
             Amount = transfer.Amount,
             Date = transfer.Date,
-            CategoryId = transfer.CategoryId,
             Category = null,
         };
     }
@@ -54,4 +53,5 @@ public static class TransferMappings
             Category = null,
         };
     }
+    
 }

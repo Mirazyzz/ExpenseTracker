@@ -1,22 +1,29 @@
-﻿using ExpenseTracker.Application.Mappings;
-using ExpenseTracker.Application.Stores.Interfaces;
+﻿using ExpenseTracker.Application.Requests.Category;
+using ExpenseTracker.Application.Services.Interfaces;
 using ExpenseTracker.Application.ViewModels.Category;
 using ExpenseTracker.Domain.Interfaces;
+using ExpenseTracker.Mappings;
+using ExpenseTracker.Stores.Interfaces;
+using Microsoft.AspNetCore.Http;
 
-namespace ExpenseTracker.Application.Stores;
+namespace ExpenseTracker.Stores;
 
 public class CategoryStore : ICategoryStore
 {
     private readonly ICommonRepository _repository;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly ICurrentUserService _currentUserService;
 
-    public CategoryStore(ICommonRepository repository)
+    public CategoryStore(ICommonRepository repository,  ICurrentUserService currentUserService)
     {
         _repository = repository;
+        _currentUserService = currentUserService;
     }
 
-    public List<CategoryViewModel> GetAll(string? search)
+    public List<CategoryViewModel> GetAll(GetCategoriesRequest request)
     {
-        var entities = _repository.Categories.GetAll(search);
+        var userId = _currentUserService.GetCurrentUserId();
+        var entities = _repository.Categories.GetAll(request.Search, userId);
         var viewModels = entities
             .Select(x => x.ToViewModel())
             .ToList();
@@ -24,18 +31,18 @@ public class CategoryStore : ICategoryStore
         return viewModels;
     }
 
-    public CategoryViewModel GetById(int id)
+    public CategoryViewModel GetById(CategoryRequest request)
     {
-        var entity = _repository.Categories.GetById(id);
+        var entity = _repository.Categories.GetById(request.CategoryId,request.UserId);
 
         return entity.ToViewModel();
     }
 
-    public CategoryViewModel Create(CreateCategoryViewModel category)
+    public CategoryViewModel Create(CreateCategoryRequest request)
     {
-        ArgumentNullException.ThrowIfNull(category);
+        ArgumentNullException.ThrowIfNull(request);
 
-        var entity = category.ToEntity();
+        var entity = request.ToEntity();
 
         var createdEntity = _repository.Categories.Create(entity);
         _repository.SaveChanges();
@@ -43,7 +50,7 @@ public class CategoryStore : ICategoryStore
         return createdEntity.ToViewModel();
     }
 
-    public void Update(UpdateCategoryViewModel category)
+    public void Update(UpdateCategoryRequest category)
     {
         ArgumentNullException.ThrowIfNull(category);
 
@@ -53,10 +60,9 @@ public class CategoryStore : ICategoryStore
         _repository.SaveChanges();
     }
 
-    public void Delete(int id)
+    public void Delete(CategoryRequest request)
     {
-        _repository.Categories.Delete(id);
+        _repository.Categories.Delete(request.CategoryId,request.UserId);
         _repository.SaveChanges();
     }
 }
-
