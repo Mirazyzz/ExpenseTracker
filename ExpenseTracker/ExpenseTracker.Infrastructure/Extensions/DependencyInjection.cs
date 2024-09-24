@@ -1,7 +1,7 @@
 ﻿using ExpenseTracker.Domain.Interfaces;
 using ExpenseTracker.Infrastructure.Configurations;
 using ExpenseTracker.Infrastructure.Email;
-using ExpenseTracker.Infrastructure.Email.Interfaceslé;
+using ExpenseTracker.Infrastructure.Email.Interfaces;
 using ExpenseTracker.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +24,7 @@ public static class DependencyInjection
             options.UseSqlServer(configuration.GetConnectionString("ExpenseTrackerDbContextConnection")));
 
         services
-            .AddIdentity<IdentityUser, IdentityRole>(options =>
+            .AddIdentity<IdentityUser<Guid>, IdentityRole<Guid>>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.SignIn.RequireConfirmedPhoneNumber = false;
@@ -43,7 +43,12 @@ public static class DependencyInjection
             })
             .AddEntityFrameworkStores<ExpenseTrackerDbContext>()
             .AddDefaultTokenProviders();
-        services.AddOptions<EmailOptions>().Bind(configuration.GetSection(EmailOptions.SectionName)).ValidateDataAnnotations().ValidateOnStart();
+
+        services.AddOptions<EmailOptions>()
+            .Bind(configuration.GetSection(EmailOptions.SectionName))
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+
         return services;
     }
 }

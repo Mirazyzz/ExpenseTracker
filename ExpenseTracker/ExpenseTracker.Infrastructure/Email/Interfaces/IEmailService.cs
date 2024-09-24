@@ -1,7 +1,6 @@
-﻿namespace ExpenseTracker.Infrastructure.Email.Interfaceslé
+﻿namespace ExpenseTracker.Infrastructure.Email.Interfaces;
+
+public interface IEmailService
 {
-    public interface IEmailService
-    {
-        void SendEmail(EmailMessage message);
-    }
+    void SendEmail(EmailMessage message);
 }

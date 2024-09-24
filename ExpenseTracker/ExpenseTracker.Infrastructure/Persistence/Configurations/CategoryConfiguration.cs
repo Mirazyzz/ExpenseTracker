@@ -10,6 +10,11 @@ namespace ExpenseTracker.Infrastructure.Persistence.Configurations
         {
             builder.ToTable("Category");
 
+            builder.HasOne(c => c.User)
+                .WithMany()
+                .HasForeignKey(c => c.UserId)
+                .IsRequired();
+
             builder.HasMany(c => c.Transfers)
                 .WithOne(t => t.Category)
                 .HasForeignKey(x => x.CategoryId);
