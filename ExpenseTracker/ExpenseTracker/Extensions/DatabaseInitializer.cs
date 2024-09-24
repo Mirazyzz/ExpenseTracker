@@ -2,6 +2,7 @@
 using ExpenseTracker.Domain.Entities;
 using ExpenseTracker.Domain.Enums;
 using ExpenseTracker.Infrastructure;
+using Microsoft.AspNetCore.Identity;
 
 namespace ExpenseTracker.Extensions;
 
@@ -9,10 +10,42 @@ public static class DatabaseInitializer
 {
     private readonly static Faker _faker = new();
 
-    public static void SeedDatabase(ExpenseTrackerDbContext context)
+    public static void UseDatabaseInitializer(this WebApplication app)
     {
-        CreateCategories(context);
-        CreateTransfers(context);
+        try
+        {
+            using var scope = app.Services.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<ExpenseTrackerDbContext>();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser<Guid>>>();
+
+            CreateUsers(context, userManager);
+            CreateCategories(context);
+            CreateTransfers(context);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Unable to seed database. {ex.Message}");
+        }
+    }
+
+    private static async void CreateUsers(ExpenseTrackerDbContext context, UserManager<IdentityUser<Guid>> userManager)
+    {
+        if (context.Users.Any()) return;
+
+        for (int i = 0; i < 20; i++)
+        {
+            var user = new IdentityUser<Guid>
+            {
+                Id = Guid.NewGuid(),
+                UserName = _faker.Internet.UserName(),
+                Email = _faker.Internet.Email(),
+                EmailConfirmed = true,
+                PhoneNumber = _faker.Phone.PhoneNumber("+998 9#-###-##-##"),
+                PhoneNumberConfirmed = true,
+            };
+
+            await userManager.CreateAsync(user, $"Qwerty123-{i}");
+        }
     }
 
     private static void CreateCategories(ExpenseTrackerDbContext context)
