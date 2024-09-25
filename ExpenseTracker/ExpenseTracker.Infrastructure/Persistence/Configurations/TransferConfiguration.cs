@@ -9,25 +9,45 @@ internal class TransferConfiguration : IEntityTypeConfiguration<Transfer>
     public void Configure(EntityTypeBuilder<Transfer> builder)
     {
         builder.ToTable(nameof(Transfer));
+        builder.HasKey(t => t.Id);
 
-        builder.Navigation(t => t.Category)
+        builder
+            .Navigation(t => t.Category)
             .AutoInclude();
 
-        builder.HasOne(t => t.Category)
+        builder
+            .HasOne(t => t.Category)
             .WithMany(c => c.Transfers)
-            .HasForeignKey(t => t.CategoryId);
-
-        builder.HasMany(t => t.Images)
-            .WithOne(i => i.Transfer)
-            .HasForeignKey(i => i.TransferId)
+            .HasForeignKey(t => t.CategoryId)
+            .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
 
-        builder.Property(t => t.Note)
+        builder
+            .HasOne(t => t.Wallet)
+            .WithMany(w => w.Transfers)
+            .HasForeignKey(t => t.WalletId)
+            .OnDelete(DeleteBehavior.NoAction)
+            .IsRequired();
+
+        builder
+            .HasMany(t => t.Images)
+            .WithOne(i => i.Transfer)
+            .HasForeignKey(i => i.TransferId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired();
+
+        builder
+            .Property(t => t.Notes)
             .HasMaxLength(Constants.DEFAULT_STRING_LENGTH)
             .IsRequired(false);
 
-        builder.Property(t => t.Amount)
+        builder
+            .Property(t => t.Amount)
             .HasPrecision(13, 2)
+            .IsRequired();
+
+        builder
+            .Property(t => t.Date)
             .IsRequired();
     }
 }

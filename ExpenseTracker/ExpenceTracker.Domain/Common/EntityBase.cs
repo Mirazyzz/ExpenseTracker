@@ -1,7 +1,6 @@
-﻿namespace ExpenseTracker.Domain.Common
+﻿namespace ExpenseTracker.Domain.Common;
+
+public abstract class EntityBase
 {
-    public abstract class EntityBase
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }

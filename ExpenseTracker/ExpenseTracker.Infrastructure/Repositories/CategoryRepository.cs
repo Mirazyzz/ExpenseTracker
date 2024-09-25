@@ -11,10 +11,10 @@ internal class CategoryRepository : RepositoryBase<Category>, ICategoryRepositor
     {
     }
 
-    public List<Category> GetAll(string? search)
+    public List<Category> GetAll(string? search, Guid userId)
     {
         var query = _context.Categories
-            .AsQueryable()
+            .Where(x => x.UserId == userId)
             .AsNoTracking();
 
         if (!string.IsNullOrWhiteSpace(search))
@@ -25,5 +25,15 @@ internal class CategoryRepository : RepositoryBase<Category>, ICategoryRepositor
         var entities = query.ToList();
 
         return entities;
+    }
+
+    public override List<Category> GetAll(Guid userId)
+    {
+        var categories = _context.Categories
+            .AsNoTracking()
+            .Where(x => x.UserId == userId)
+            .ToList();
+
+        return categories;
     }
 }

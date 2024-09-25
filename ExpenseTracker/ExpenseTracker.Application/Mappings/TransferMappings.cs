@@ -1,4 +1,6 @@
-﻿using ExpenseTracker.Application.ViewModels.Transfer;
+﻿using ExpenseTracker.Application.Requests.Category;
+using ExpenseTracker.Application.Requests.Transfer;
+using ExpenseTracker.Application.ViewModels.Transfer;
 using ExpenseTracker.Domain.Entities;
 
 namespace ExpenseTracker.Mappings;
@@ -10,7 +12,7 @@ public static class TransferMappings
         return new TransferViewModel
         {
             Id = transfer.Id,
-            Note = transfer.Note,
+            Note = transfer.Notes,
             Amount = transfer.Amount,
             Date = transfer.Date,
             Category = transfer.Category.ToViewModel(),
@@ -18,40 +20,44 @@ public static class TransferMappings
         };
     }
 
-    public static UpdateTransferViewModel ToUpdateViewModel(this Transfer transfer)
-    {
-        return new UpdateTransferViewModel
-        {
-            Id = transfer.Id,
-            Note = transfer.Note,
-            Amount = transfer.Amount,
-            Date = transfer.Date,
-            CategoryId = transfer.Category.Id
-        };
-    }
 
-    public static Transfer ToEntity(this CreateTransferViewModel transfer)
+
+    public static Transfer ToEntity(this CreateTransferRequest transfer)
     {
         return new Transfer
         {
-            Note = transfer.Note,
+            Notes = transfer.Notes,
             Amount = transfer.Amount,
             Date = transfer.Date,
             CategoryId = transfer.CategoryId,
             Category = null,
+            Wallet = null!
         };
     }
-
-    public static Transfer ToEntity(this UpdateTransferViewModel transfer)
+    public static Transfer ToEntity(this UpdateTransferRequest request)
     {
         return new Transfer
         {
-            Id = transfer.Id,
-            Note = transfer.Note,
-            Amount = transfer.Amount,
-            Date = transfer.Date,
-            CategoryId = transfer.CategoryId,
+            Notes = request.Notes,
+            Amount = request.Amount,
+            Date = request.Date,
+            CategoryId = request.CategoryId,
             Category = null,
+            Wallet = null!,
         };
+    }
+
+    public static TransferRequest ToTransferRequest(this UpdateTransferRequest request)
+    {
+        return new TransferRequest(request.UserId, request.TransferId);
+    }
+
+    public static GetCategoriesRequest ToGetCategoriesRequest(this GetTransfersRequest request)
+    {
+        return new GetCategoriesRequest(request.UserId, request.Search);
+    }
+    public static CategoryRequest ToCategoryRequest(this GetTransfersRequest request)
+    {
+        return new CategoryRequest(request.UserId, request.CategoryId);
     }
 }
