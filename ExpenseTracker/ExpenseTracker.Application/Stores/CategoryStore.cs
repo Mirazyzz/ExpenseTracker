@@ -31,7 +31,7 @@ public class CategoryStore : ICategoryStore
 
     public CategoryViewModel GetById(CategoryRequest request)
     {
-        var entity = _repository.Categories.GetById(request.CategoryId, request.UserId);
+        var entity = _repository.Categories.GetById(request.Id);
 
         return entity.ToViewModel();
     }
@@ -60,7 +60,7 @@ public class CategoryStore : ICategoryStore
 
     public void Delete(CategoryRequest request)
     {
-        _repository.Categories.Delete(request.CategoryId, request.UserId);
+        _repository.Categories.Delete(request.Id);
         _repository.SaveChanges();
     }
 }
