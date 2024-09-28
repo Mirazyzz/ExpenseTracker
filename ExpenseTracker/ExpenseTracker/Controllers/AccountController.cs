@@ -1,4 +1,3 @@
-using ExpenseTracker.Application.ViewModels.Account;
 using ExpenseTracker.Infrastructure.Email;
 using ExpenseTracker.Infrastructure.Email.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -59,7 +58,7 @@ public class AccountController : Controller
 
         return View();
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> Register(RegisterViewModel model, string? returnUrl = null)
     {

@@ -1,5 +1,4 @@
-﻿using ExpenseTracker.Application.Requests.Category;
-using ExpenseTracker.Application.Requests.Common;
+﻿using ExpenseTracker.Application.Requests.Common;
 using ExpenseTracker.Application.Requests.Transfer;
 using ExpenseTracker.Application.ViewModels.Transfer;
 using ExpenseTracker.Mappings;
@@ -47,7 +46,7 @@ public class TransfersController : Controller
 
     public IActionResult Details(TransferRequest request)
     {
-        if (request?.TransferId == null)
+        if (request?.Id == null)
         {
             return NotFound();
         }
@@ -64,17 +63,17 @@ public class TransfersController : Controller
 
     public IActionResult Create(UserRequest request)
     {
-        var getCategories = new GetCategoriesRequest();
-        getCategories.UserId = request.UserId;
-        getCategories.Search = null;
+        //var getCategories = new GetCategoriesRequest();
+        //getCategories.UserId = request.UserId;
+        //getCategories.Search = null;
 
-        var categories = _categoryStore.GetAll(getCategories);
+        var categories = _categoryStore.GetAll(null!);
         var defaultCategory = categories.FirstOrDefault();
 
         ViewBag.Categories = categories;
         ViewBag.DefaultCategory = new { defaultCategory?.Id, defaultCategory?.Name };
 
-        var model = new CreateTransferRequest()
+        var model = new CreateTransferRequest(default, default, default, default, default)
         {
             Date = DateTime.Now
         };
@@ -106,7 +105,7 @@ public class TransfersController : Controller
 
     public IActionResult Edit([FromRoute] UpdateTransferRequest request)
     {
-        if (request?.TransferId == null)
+        if (request?.Id == null)
         {
             return NotFound();
         }
@@ -118,21 +117,17 @@ public class TransfersController : Controller
             return NotFound();
         }
 
-        var getCategories = new GetCategoriesRequest();
-        getCategories.UserId = request.UserId;
-        getCategories.Search = null;
-
-        var categories = _categoryStore.GetAll(getCategories);
+        var categories = _categoryStore.GetAll(null!);
         ViewBag.Categories = categories;
 
-        return View();
+        return View(viewModel);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Edit(int? id, [FromBody] UpdateTransferRequest request)
     {
-        if (id != request.TransferId)
+        if (id != request.Id)
         {
             return NotFound();
         }
@@ -163,7 +158,7 @@ public class TransfersController : Controller
 
     public IActionResult Delete([FromRoute] TransferRequest request)
     {
-        if (request?.TransferId == null)
+        if (request?.Id == null)
         {
             return NotFound();
         }
