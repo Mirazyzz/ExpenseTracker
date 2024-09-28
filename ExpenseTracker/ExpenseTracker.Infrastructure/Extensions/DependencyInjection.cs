@@ -15,9 +15,12 @@ public static class DependencyInjection
     public static IServiceCollection RegisterInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<ICategoryRepository, CategoryRepository>();
-        services.AddScoped<ICommonRepository, CommonRepository>();
         services.AddScoped<ITransferRepository, TransferRepository>();
         services.AddScoped<IImageFileRepository, ImageFileRepository>();
+        services.AddScoped<IWalletRepository, WalletRepository>();
+        services.AddScoped<IWalletShareRepository, WalletShareRepository>();
+        services.AddScoped<ICommonRepository, CommonRepository>();
+
         services.AddScoped<IEmailService, EmailService>();
 
         services.AddDbContext<ExpenseTrackerDbContext>(options =>
