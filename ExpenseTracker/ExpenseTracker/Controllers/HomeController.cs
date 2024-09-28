@@ -29,9 +29,9 @@ public class HomeController : Controller
     public IActionResult Error(int? statusCode = 500) =>
         statusCode switch
         {
-            404 => View("NotFound");
-            _ => View("Error");
-        }
+            404 => View("NotFound"),
+            _ => View("Error")
+        };
 
     [Route("Home/NotFound")]
     public IActionResult NotFoundError() => View("NotFound");
@@ -56,7 +56,7 @@ public class HomeController : Controller
     private void PopulateSplineChartData()
     {
         var allTransfers = _context.Transfers
-            .Where(x => x.Date < DateTime.Parse("2024-08-20") && x.Date > DateTime.Parse("2024-08-20").AddDays(-7))
+            .Where(x => x.Date < DateTime.UtcNow && x.Date > DateTime.UtcNow.AddDays(-7))
             .Include(x => x.Category)
             .AsNoTracking()
             .ToList();
@@ -85,8 +85,8 @@ public class HomeController : Controller
 
         //Combine Income & Expense
         //Last 7 Days
-        DateTime startDate = DateTime.Parse("2024-08-20").AddDays(-6);
-        DateTime endDate = DateTime.Parse("2024-08-20");
+        DateTime startDate = DateTime.UtcNow.AddDays(-6);
+        DateTime endDate = DateTime.UtcNow;
 
         var last7Days = Enumerable.Range(0, 7)
             .Select(i => startDate.AddDays(i).ToString("dd-MMM"))
@@ -153,5 +153,4 @@ public class SplineChartData
     public string day;
     public decimal income;
     public decimal expense;
-
 }

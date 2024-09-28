@@ -1,4 +1,7 @@
-﻿using ExpenseTracker.Application.ViewModels.Transfer;
+﻿using ExpenseTracker.Application.Requests.Common;
+using ExpenseTracker.Application.Requests.Transfer;
+using ExpenseTracker.Application.ViewModels.Transfer;
+using ExpenseTracker.Mappings;
 using ExpenseTracker.Stores.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -8,8 +11,8 @@ namespace ExpenseTracker.Controllers;
 
 public class TransfersController : Controller
 {
-    public const int MaxFileSize = 2 * 1024 * 1024; // 2 MB
-    public const int MinFileSize = 10 * 1024; // 10 kb
+    public const int MaxFileSize = 2 * 1024 * 1024;
+    public const int MinFileSize = 10 * 1024;
 
     private static readonly List<string> _allowedFileTypes =
     [
@@ -26,26 +29,29 @@ public class TransfersController : Controller
     }
 
 
-    public IActionResult Index(int? categoryId, string? search)
+    public IActionResult Index(GetTransfersRequest request)
     {
+        var result = _store.GetAll(request);
 
-        var result = _store.GetAll(categoryId, search);
+        ViewBag.Search = request.Search;
 
-        ViewBag.Search = search;
-        ViewBag.Categories = _categoryStore.GetAll(null);
-        ViewBag.SelectedCategory = categoryId.HasValue ? _categoryStore.GetById(categoryId.Value) : null;
+        var getCategoriesRequest = request.ToGetCategoriesRequest();
+
+        var categoryRequest = request.ToCategoryRequest();
+        ViewBag.Categories = _categoryStore.GetAll(getCategoriesRequest);
+        ViewBag.SelectedCategory = request?.CategoryId == null ? _categoryStore.GetById(categoryRequest) : null;
 
         return View(result);
     }
 
-    public IActionResult Details(int? id)
+    public IActionResult Details(TransferRequest request)
     {
-        if (id == null)
+        if (request?.Id == null)
         {
             return NotFound();
         }
 
-        var transfer = _store.GetById(id.Value);
+        var transfer = _store.GetById(request);
 
         if (transfer is null)
         {
@@ -55,15 +61,19 @@ public class TransfersController : Controller
         return View(transfer);
     }
 
-    public IActionResult Create()
+    public IActionResult Create(UserRequest request)
     {
-        var categories = _categoryStore.GetAll("");
+        //var getCategories = new GetCategoriesRequest();
+        //getCategories.UserId = request.UserId;
+        //getCategories.Search = null;
+
+        var categories = _categoryStore.GetAll(null!);
         var defaultCategory = categories.FirstOrDefault();
 
         ViewBag.Categories = categories;
         ViewBag.DefaultCategory = new { defaultCategory?.Id, defaultCategory?.Name };
 
-        var model = new CreateTransferViewModel()
+        var model = new CreateTransferRequest(default, default, default, default, default)
         {
             Date = DateTime.Now
         };
@@ -73,7 +83,7 @@ public class TransfersController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Create(CreateTransferViewModel transfer, List<IFormFile> attachments)
+    public IActionResult Create(CreateTransferRequest request, List<IFormFile> attachments)
     {
         if (!ModelState.IsValid)
         {
@@ -84,30 +94,30 @@ public class TransfersController : Controller
         {
             if (!TryValidateFile(ModelState, attachment))
             {
-                return View(transfer);
+                return View(request);
             }
         }
 
-        var createdTransfer = _store.Create(transfer, attachments);
+        var createdTransfer = _store.Create(request, attachments);
 
         return RedirectToAction(nameof(Details), new { id = createdTransfer.Id });
     }
 
-    public IActionResult Edit(int? id)
+    public IActionResult Edit([FromRoute] UpdateTransferRequest request)
     {
-        if (id == null)
+        if (request?.Id == null)
         {
             return NotFound();
         }
 
-        var viewModel = _store.GetForUpdate(id.Value);
+        var viewModel = _store.GetForUpdate(request);
 
         if (viewModel is null)
         {
             return NotFound();
         }
 
-        var categories = _categoryStore.GetAll("");
+        var categories = _categoryStore.GetAll(null!);
         ViewBag.Categories = categories;
 
         return View(viewModel);
@@ -115,25 +125,25 @@ public class TransfersController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Edit(int id, UpdateTransferViewModel transfer)
+    public IActionResult Edit(int? id, [FromBody] UpdateTransferRequest request)
     {
-        if (id != transfer.Id)
+        if (id != request.Id)
         {
             return NotFound();
         }
 
         if (!ModelState.IsValid)
         {
-            return View(transfer);
+            return View(request);
         }
 
         try
         {
-            _store.Update(transfer);
+            _store.Update(request);
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!TransferExists(transfer.Id))
+            if (!TransferExists(request))
             {
                 return NotFound();
             }
@@ -146,14 +156,14 @@ public class TransfersController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    public IActionResult Delete(int? id)
+    public IActionResult Delete([FromRoute] TransferRequest request)
     {
-        if (id == null)
+        if (request?.Id == null)
         {
             return NotFound();
         }
 
-        var transfer = _store.GetById(id.Value);
+        var transfer = _store.GetById(request);
 
         if (transfer is null)
         {
@@ -165,16 +175,16 @@ public class TransfersController : Controller
 
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public IActionResult DeleteConfirmed(int id)
+    public IActionResult DeleteConfirmed([FromRoute] TransferRequest request)
     {
-        var transfer = _store.GetById(id);
+        var transfer = _store.GetById(request);
 
         if (transfer is null)
         {
             return NotFound();
         }
 
-        _store.Delete(id);
+        _store.Delete(request);
 
         return RedirectToAction(nameof(Index));
     }
@@ -186,16 +196,18 @@ public class TransfersController : Controller
     /// <param name="search"></param>
     /// <returns>List of filtered transfers</returns>
     [Route("getTransfers")]
-    public ActionResult<TransferViewModel> GetTransfers(int? categoryId, string? search)
+    public ActionResult<TransferViewModel> GetTransfers(GetTransfersRequest request)
     {
-        var result = _store.GetAll(categoryId, search);
+        var result = _store.GetAll(request);
 
         return Ok(result);
     }
 
-    private bool TransferExists(int id)
+    private bool TransferExists(UpdateTransferRequest request)
     {
-        return _store.GetById(id) is not null;
+        var transferRequest = request.ToTransferRequest();
+
+        return _store.GetById(transferRequest) is not null;
     }
 
     private static bool TryValidateFile(ModelStateDictionary modelState, IFormFile? formFile)

@@ -1,4 +1,4 @@
-﻿@model ExpenseTracker.Application.ViewModels.Category.UpdateCategoryViewModel;
+﻿@model ExpenseTracker.Application.Requests.Category.UpdateCategoryRequest;
 
 @{
 }
@@ -9,7 +9,7 @@
         <div class="widget p-5" style="background-color:#212b36">
             <form asp-action="Create" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" name="CategoryId" value="@Model.Id" />
+                <input type="hidden" name="CategoryId" value="@Model.CategoryId" />
                 <div class="mb-3">
                     <label class="e-btn" for="radioleft">@(Model.Type == ExpenseTracker.Domain.Enums.CategoryType.Income ? "Income" : "Expense")</label>
                 </div>

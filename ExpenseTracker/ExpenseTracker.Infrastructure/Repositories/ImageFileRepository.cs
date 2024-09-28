@@ -11,6 +11,16 @@ internal class ImageFileRepository : RepositoryBase<ImageFile>, IImageFileReposi
     {
     }
 
+    public override List<ImageFile> GetAll(Guid userId)
+    {
+        var images = _context.ImageFiles
+            .AsNoTracking()
+            .Where(x => x.Transfer.Category.UserId == userId)
+            .ToList();
+
+        return images;
+    }
+
     public List<ImageFile> GetByTransferId(int transferId)
     {
         var images = _context.ImageFiles
