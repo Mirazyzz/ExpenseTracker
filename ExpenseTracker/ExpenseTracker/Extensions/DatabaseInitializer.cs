@@ -60,6 +60,7 @@ public static class DatabaseInitializer
                 Type = randomType,
                 Name = _faker.Lorem.Word(),
                 Description = _faker.Lorem.Sentence(),
+                User = null!,
             };
 
             context.Add(category);
@@ -83,9 +84,10 @@ public static class DatabaseInitializer
                 {
                     Amount = _faker.Random.Decimal(10, 5_000),
                     Date = _faker.Date.Between(DateTime.Now.AddDays(-7), DateTime.Now).ToUniversalTime(),
-                    Note = _faker.Lorem.Sentence(),
+                    Notes = _faker.Lorem.Sentence(),
                     CategoryId = categoryId,
                     Category = null,
+                    Wallet = null!
                 };
 
                 context.Transfers.Add(transfer);
