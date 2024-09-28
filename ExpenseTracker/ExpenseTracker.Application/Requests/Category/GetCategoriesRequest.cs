@@ -2,7 +2,5 @@
 
 namespace ExpenseTracker.Application.Requests.Category;
 
-public class GetCategoriesRequest : UserRequest
-{
-    public string? Search { get; set; }
-}
+public sealed record GetCategoriesRequest(Guid UserId,string? Search)
+    : UserRequest(UserId: UserId);

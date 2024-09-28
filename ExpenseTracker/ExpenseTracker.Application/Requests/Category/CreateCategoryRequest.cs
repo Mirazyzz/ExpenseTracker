@@ -3,9 +3,9 @@ using ExpenseTracker.Domain.Enums;
 
 namespace ExpenseTracker.Application.Requests.Category;
 
-public class CreateCategoryRequest : UserRequest
-{
-    public string Name { get; set; }
-    public string? Description { get; set; }
-    public CategoryType Type { get; set; }
-}
+public record CreateCategoryRequest(
+    Guid UserId,
+    string Name,
+    string? Description,
+    CategoryType Type)
+    : UserRequest(UserId: UserId);
