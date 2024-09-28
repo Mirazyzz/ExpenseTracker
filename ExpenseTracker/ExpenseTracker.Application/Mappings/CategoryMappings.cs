@@ -14,6 +14,7 @@ public static class CategoryMappings
             Description = request.Description,
             Type = request.Type,
             UserId = request.UserId,
+            User = null!,
         };
     }
     public static Category ToEntity(this UpdateCategoryRequest request)
@@ -24,7 +25,7 @@ public static class CategoryMappings
             Description = request.Description,
             Type = request.Type,
             UserId = request.UserId,
-
+            User = null!,
         };
     }
 
@@ -38,26 +39,6 @@ public static class CategoryMappings
             Type = category.Type,
             CreatedAt = category.CreatedAt,
             UpdatedAt = category.UpdatedAt,
-        };
-    }
-
-    public static UpdateCategoryRequest ToUpdateViewModel(this CategoryViewModel category)
-    {
-        return new UpdateCategoryRequest
-        {
-            CategoryId = category.Id,
-            Name = category.Name,
-            Type = category.Type,
-            Description = category.Description
-        };
-    }
-
-    public static CategoryRequest ToCategoryRequest(this UpdateCategoryRequest updateCategory)
-    {
-        return new CategoryRequest
-        {
-            CategoryId = updateCategory.CategoryId,
-            UserId = updateCategory.UserId,
         };
     }
 }

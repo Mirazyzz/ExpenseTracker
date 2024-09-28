@@ -12,7 +12,7 @@ public static class TransferMappings
         return new TransferViewModel
         {
             Id = transfer.Id,
-            Note = transfer.Note,
+            Note = transfer.Notes,
             Amount = transfer.Amount,
             Date = transfer.Date,
             Category = transfer.Category.ToViewModel(),
@@ -26,50 +26,38 @@ public static class TransferMappings
     {
         return new Transfer
         {
-            Note = transfer.Note,
+            Notes = transfer.Notes,
             Amount = transfer.Amount,
             Date = transfer.Date,
             CategoryId = transfer.CategoryId,
             Category = null,
-
+            Wallet = null!
         };
     }
     public static Transfer ToEntity(this UpdateTransferRequest request)
     {
         return new Transfer
         {
-            Note = request.Note,
+            Notes = request.Notes,
             Amount = request.Amount,
             Date = request.Date,
             CategoryId = request.CategoryId,
             Category = null,
-            UserId = request.UserId
+            Wallet = null!,
         };
     }
 
     public static TransferRequest ToTransferRequest(this UpdateTransferRequest request)
     {
-        return new TransferRequest
-        {
-            TransferId = request.TransferId,
-            UserId = request.UserId,
-        };
+        return new TransferRequest(request.UserId, request.Id);
     }
 
     public static GetCategoriesRequest ToGetCategoriesRequest(this GetTransfersRequest request)
     {
-        return new GetCategoriesRequest
-        {
-            Search = request.Search,
-            UserId = request.UserId,
-        };
+        return new GetCategoriesRequest(request.UserId, request.Search);
     }
     public static CategoryRequest ToCategoryRequest(this GetTransfersRequest request)
     {
-        return new CategoryRequest
-        {
-            UserId = request.UserId,
-            CategoryId = request.CategoryId,
-        };
+        return new CategoryRequest(request.UserId, request.CategoryId);
     }
 }
