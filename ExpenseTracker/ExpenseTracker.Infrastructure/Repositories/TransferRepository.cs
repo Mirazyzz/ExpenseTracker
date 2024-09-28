@@ -6,19 +6,33 @@ namespace ExpenseTracker.Infrastructure.Repositories;
 
 internal class TransferRepository : RepositoryBase<Transfer>, ITransferRepository
 {
-    public TransferRepository(ExpenseTrackerDbContext context) : base(context) { }
+    public TransferRepository(ExpenseTrackerDbContext context)
+        : base(context)
+    {
+    }
 
+    public override List<Transfer> GetAll(Guid userId)
+    {
+        var transfers = _context.Transfers
+            .AsNoTracking()
+            .Where(x => x.Category.UserId == userId)
+            .ToList();
+
+        return transfers;
+    }
+
+    // TODO: refactor this -> Extract all params into one class
     public List<Transfer> GetAll(int? categoryId, string? search, Guid userId)
     {
         var query = _context.Transfers
             .AsNoTracking()
-            .Where(t => t.UserId == userId)
+            .Where(t => t.Category.UserId == userId)
             .AsQueryable();
 
         if (!string.IsNullOrEmpty(search))
         {
             query = query.Where(x => x.Category.Name.Contains(search) ||
-                (x.Note != null && x.Note.Contains(search)));
+                (x.Notes != null && x.Notes.Contains(search)));
         }
 
         if (categoryId.HasValue)
@@ -40,11 +54,13 @@ internal class TransferRepository : RepositoryBase<Transfer>, ITransferRepositor
             return GetAll(userId);
         }
 
-        var transfers = _context.Transfers.Where(x => x.UserId == userId &&
-        (x.Amount >= minAmount && x.Amount <= maxAmount) ||
-        ((minAmount == null && maxAmount != null) && x.Amount <= maxAmount) ||
-        ((minAmount != null && maxAmount == null) && x.Amount >= minAmount)
-        ).ToList();
+        var transfers = _context.Transfers
+            .Where(x =>
+                x.Category.UserId == userId &&
+                (x.Amount >= minAmount && x.Amount <= maxAmount) ||
+                ((minAmount == null && maxAmount != null) && x.Amount <= maxAmount) ||
+                ((minAmount != null && maxAmount == null) && x.Amount >= minAmount))
+            .ToList();
 
         return transfers;
     }

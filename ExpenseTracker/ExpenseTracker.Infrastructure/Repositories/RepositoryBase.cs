@@ -14,20 +14,11 @@ internal abstract class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where
         _context = context;
     }
 
-    public List<TEntity> GetAll(Guid userId)
-    {
-        var entities = _context.Set<TEntity>()
-        .AsNoTracking()
-        .OrderByDescending(x => x.Id)
-        .Where(x => x.UserId == userId)
-        .ToList();
+    public abstract List<TEntity> GetAll(Guid userId);
 
-        return entities;
-    }
-
-    public TEntity GetById(int id, Guid userId)
+    public virtual TEntity GetById(int id)
     {
-        var entity = GetOrThrow(id, userId);
+        var entity = GetOrThrow(id);
 
         return entity;
     }
@@ -41,23 +32,30 @@ internal abstract class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where
         return entity;
     }
 
-    public void Delete(int id, Guid userId)
-    {
-        var entity = GetOrThrow(id, userId);
-
-        _context.Set<TEntity>().Remove(entity);
-    }
-
     public void Update(TEntity entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
 
+        if (!_context.Set<TEntity>().Any(x => x.Id == entity.Id))
+        {
+            throw new EntityNotFoundException($"{typeof(TEntity)} with id: {entity.Id} is not found.");
+        }
+
         _context.Set<TEntity>().Update(entity);
     }
 
-    private TEntity GetOrThrow(int id, Guid userId)
+    public void Delete(int id)
     {
-        var entity = _context.Set<TEntity>().AsNoTracking().FirstOrDefault(x => x.Id == id && x.UserId == userId);
+        var entity = GetOrThrow(id);
+
+        _context.Set<TEntity>().Remove(entity);
+    }
+
+    private TEntity GetOrThrow(int id)
+    {
+        var entity = _context.Set<TEntity>()
+            .AsNoTracking()
+            .FirstOrDefault(x => x.Id == id);
 
         if (entity is null)
         {

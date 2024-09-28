@@ -26,4 +26,14 @@ internal class CategoryRepository : RepositoryBase<Category>, ICategoryRepositor
 
         return entities;
     }
+
+    public override List<Category> GetAll(Guid userId)
+    {
+        var categories = _context.Categories
+            .AsNoTracking()
+            .Where(x => x.UserId == userId)
+            .ToList();
+
+        return categories;
+    }
 }
