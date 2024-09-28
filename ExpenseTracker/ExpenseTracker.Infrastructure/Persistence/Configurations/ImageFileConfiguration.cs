@@ -9,14 +9,27 @@ public class ImageFileConfiguration : IEntityTypeConfiguration<Domain.Entities.I
     public void Configure(EntityTypeBuilder<ImageFile> builder)
     {
         builder.ToTable(nameof(ImageFile));
+        builder.HasKey(i => i.Id);
 
-        builder.HasOne(x => x.Transfer)
+        builder
+            .HasOne(i => i.Transfer)
             .WithMany(t => t.Images)
-            .HasForeignKey(x => x.TransferId)
+            .HasForeignKey(i => i.TransferId)
+            .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
 
-        builder.Property(x => x.Name)
-                .HasMaxLength(Constants.DEFAULT_STRING_LENGTH)
-                .IsRequired();
+        builder
+            .Property(i => i.Name)
+            .HasMaxLength(Constants.DEFAULT_STRING_LENGTH)
+            .IsRequired();
+
+        builder
+            .Property(i => i.Data)
+            .IsRequired();
+
+        builder
+            .Property(i => i.Type)
+            .HasMaxLength(Constants.DEFAULT_STRING_LENGTH)
+            .IsRequired();
     }
 }
