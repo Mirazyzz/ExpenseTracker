@@ -17,7 +17,14 @@ public class UserRequestFilter : IAsyncActionFilter
 
             if (Guid.TryParse(userId, out var result))
             {
-                args.UserId = result;
+                context.ActionArguments.Values.Remove(args);
+
+                args = args with
+                {
+                    UserId = result
+                };
+
+                context.ActionArguments.Values.Add(args);
             }
         }
 
