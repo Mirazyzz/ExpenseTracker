@@ -1,4 +1,6 @@
-﻿@model ExpenseTracker.Application.Requests.Transfer.UpdateTransferRequest
+﻿@using ExpenseTracker.Domain.Enums
+
+@model ExpenseTracker.Application.Requests.Transfer.UpdateTransferRequest
 
 @{
     ViewData["Title"] = "Edit";
@@ -13,9 +15,9 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Note" class="control-label"></label>
-                <input asp-for="Note" class="form-control" />
-                <span asp-validation-for="Note" class="text-danger"></span>
+                <label asp-for="Notes" class="control-label"></label>
+                <input asp-for="Notes" class="form-control" />
+                <span asp-validation-for="Notes" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Amount" class="control-label"></label>
