@@ -6,6 +6,5 @@ namespace ExpenseTracker.Domain.Interfaces
     {
         List<Transfer> GetAll(int? categoryId, string? search, Guid userId);
         List<Transfer> GetAll(decimal? minAmount, decimal? maxAmount, Guid userId);
-
     }
 }

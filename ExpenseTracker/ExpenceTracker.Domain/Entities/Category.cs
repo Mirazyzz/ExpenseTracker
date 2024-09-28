@@ -11,7 +11,7 @@ public class Category : AuditableEntity
     public CategoryType Type { get; set; }
 
     public Guid UserId { get; set; }
-    public IdentityUser<Guid> User { get; set; }
+    public required IdentityUser<Guid> User { get; set; }
 
     public virtual IEnumerable<Transfer> Transfers { get; set; }
 
