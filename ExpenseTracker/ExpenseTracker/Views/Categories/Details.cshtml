@@ -4,45 +4,48 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="row">
 
-<div>
-    <h4>Category</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Type)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Type)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UpdatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UpdatedAt)
-        </dd>
-    </dl>
+    <!-- Main Content -->
+    <div class="col-md-9">
+        <h1>@Model.Name Details</h1>
+
+        <!-- Syncfusion Card for a modern look -->
+        <div class="e-card">
+            <div class="e-card-header">
+                <div class="e-card-header-title">Category Information</div>
+            </div>
+            <div class="e-card-content">
+                <dl class="row">
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Name)</dt>
+                    <dd class="col-sm-9">@Html.DisplayFor(model => model.Name)</dd>
+
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Description)</dt>
+                    <dd class="col-sm-9">@Html.DisplayFor(model => model.Description)</dd>
+
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Type)</dt>
+                    <dd class="col-sm-9">@Html.DisplayFor(model => model.Type)</dd>
+
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.CreatedAt)</dt>
+                    <dd class="col-sm-9">@Html.DisplayFor(model => model.CreatedAt)</dd>
+
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.UpdatedAt)</dt>
+                    <dd class="col-sm-9">@Html.DisplayFor(model => model.UpdatedAt)</dd>
+                </dl>
+            </div>
+
+            <!-- Syncfusion Buttons -->
+            <div class="e-card-actions">
+                <a class="e-btn" asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>
+                <a class="e-btn e-primary" asp-action="Index">Back to List</a>
+            </div>
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+<script src="https://cdn.syncfusion.com/ej2/27.1.52/dist/ej2.min.js"></script>
+<script>
+    // Any Syncfusion-specific initialization code
+    ej.base.enableRipple(true);  // Enables ripple effect for Syncfusion controls
+</script>
+
