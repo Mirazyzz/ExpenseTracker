@@ -1,5 +1,4 @@
 using ExpenseTracker.Extensions;
-using ExpenseTracker.Infrastructure;
 using ExpenseTracker.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
