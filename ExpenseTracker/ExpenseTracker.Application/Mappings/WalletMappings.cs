@@ -33,4 +33,13 @@ public static class WalletMappings
         Owner = null!,
         OwnerId = request.UserId,
     };
+    public static Wallet ToUpdateEntity(this UpdateWalletRequest request) => new()
+    {
+        Id= request.Id,
+        Name = request.Name,
+        Description = request.Description,
+        Balance = request.Balance,
+        Owner = null!,
+        OwnerId = request.UserId,
+    };
 }
