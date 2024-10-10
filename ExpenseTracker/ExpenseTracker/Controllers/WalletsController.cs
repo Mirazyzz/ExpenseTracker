@@ -80,7 +80,7 @@ public class WalletsController : Controller
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Route("Delete")]
-    public IActionResult DeleteConfirmed([FromRoute] WalletRequest request)
+    public IActionResult DeleteConfirmed([FromForm] WalletRequest request)
     {
         _store.Delete(request);
 

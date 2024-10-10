@@ -69,7 +69,7 @@ internal sealed class WalletStore : IWalletStore
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        var entity = request.ToEntity();
+        var entity = request.ToUpdateEntity();
 
         if (entity.IsMain)
         {

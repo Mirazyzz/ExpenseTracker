@@ -87,7 +87,7 @@ public class AccountController : Controller
             _walletStore.CreateDefault(user.Id);
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var confirmationUrl = Url.Action(
-                nameof(EmailConfirmed),           
+                nameof(ConfirmEmail),           
                 "Account",                
                 new { email = user.Email, token },
                 protocol: Request.Scheme);
@@ -116,8 +116,8 @@ public class AccountController : Controller
     {
         return View();
     }
-
-    public async Task<IActionResult> EmailConfirmed(string email, string token)
+    [HttpPost]
+    public async Task<IActionResult> ConfirmEmail(string email, string token)
     {
         var user = await _userManager.FindByEmailAsync(email);
 
