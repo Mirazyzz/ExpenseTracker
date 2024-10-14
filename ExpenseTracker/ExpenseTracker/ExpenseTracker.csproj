@@ -23,7 +23,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.5" />
     <PackageReference Include="NETCore.MailKit" Version="2.1.0" />
-    <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="26.2.4" />
+    <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="27.1.52" />
   </ItemGroup>
 
   <ItemGroup>

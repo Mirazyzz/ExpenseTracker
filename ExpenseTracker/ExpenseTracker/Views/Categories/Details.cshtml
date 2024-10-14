@@ -4,45 +4,119 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="details-container widget p-5">
+    <h2>Category details</h2>
+        <div>
+            <hr />
+            <dl class="row text-center">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Type)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Type)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.CreatedAt)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.CreatedAt)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.UpdatedAt)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.UpdatedAt)
+                </dd>
+            </dl>
+        </div>
+    @* <div class="d-flex ed-btn">
+        <div class="ed-btn">
+            <a asp-action="Edit" class="btn btn-primary" asp-route-id="@Model?.Id">
+                <i class="fa-solid fa-pen"></i> Edit
+            </a>
+        </div>
+        <div class="ed-btn">
+            <a asp-action="Index" class="btn btn-primary" asp-route-id="@Model?.Id">
+                <i class="fa-solid fa-trash"></i> Back to List
+            </a>
+        </div>
+        <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+        <a asp-action="Index">Back to List</a> 
+    </div> *@
+    <div class="button-container">
+        <a asp-action="Edit" class="btn1 btn-edit" asp-route-id="@Model?.Id">
+            <i class="fa-solid fa-pen" style="margin-right: 10px"></i> Edit
+        </a>
+        <a asp-action="Index" class="btn1 btn-back" asp-route-id="@Model?.Id">
+            <i class="fa-solid fa-left-long" style="margin-right: 10px"></i> Back to List
+        </a>
+    </div>
+</div>
 
-<div>
-    <h4>Category</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Type)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Type)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UpdatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UpdatedAt)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<style>
+    .details-container{
+        background-color: #212b36;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px;
+    }
+
+    /* Styling for anchor tags as buttons */
+    a.btn1 {
+        width: 100%;
+        height:100%;
+        padding: 10px 10px;
+        margin: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #3498db;
+        color: white;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 20px;
+        transition: background-color 0.3s ease;
+    }
+
+        /* Hover effect */
+        a.btn1:hover {
+            background-color: #2980b9;
+        }
+
+    /* Specific styles for Edit button */
+    a.btn-edit {
+        background-color: #ebb30c;
+    }
+
+        a.btn-edit:hover {
+            background-color: #b88b06;
+        }
+
+    /* Specific styles for Back button */
+    a.btn-back {
+        background-color: #0d6efd;
+    }
+
+        a.btn-back:hover {
+            background-color: #054cb5;
+        }
+
+    h2 {
+        text-align: center;
+    }
+</style>
