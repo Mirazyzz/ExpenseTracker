@@ -2,17 +2,47 @@
     Layout = "~/Views/Shared/_ErrorLayout.cshtml";
 }
 
-<div class="row">
-    <div class="col-md-6 mx-auto">
-        <div class="widget p-5" style="background-color:#212b36">
-            <h1 class="text-center mb-5 text-danger"><i class="fa fa-exclamation-triangle"></i> 404</h1>
-            <h2 class="text-center mb-4">Page Not Found</h2>
-            <p class="text-center mb-4">Oops! The page you're looking for doesn't exist.</p>
-            <div class="d-grid gap-2">
-                <a asp-controller="Home" asp-action="Index" class="btn btn-primary">
-                    <i class="fa fa-home"></i> Go to Homepage
-                </a>
-            </div>
+<link rel="stylesheet" href="~/css/Error.css" asp-append-version="true" />
+
+<div class="error mt-0">
+    <div class="text mt-0">
+        <h1 class="main-404 text-danger">4O4</h1>
+        <h1>lost in space</h1>
+        <p>you have reached the edge of the universe</p>
+        <div>
+            <a asp-controller="Home" asp-action="Index" style="margin-top:40%; width: 300px"
+               class="btn btn-primary">
+                <i class="fa fa-home"></i> Go to Homepage
+            </a>
         </div>
     </div>
 </div>
+
+
+<div class="astronaut">
+    <img src="~/astronaut.png" alt="" class="src">
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        var body = document.body;
+        setInterval(createStar, 100);
+        function createStar() {
+            var right = Math.random() * 500;
+            var top = Math.random() * screen.height;
+            var star = document.createElement("div");
+            star.classList.add("star")
+            body.appendChild(star);
+            setInterval(runStar, 10);
+            star.style.top = top + "px";
+            function runStar() {
+                if (right >= screen.width) {
+                    star.remove();
+                }
+                right += 3;
+                star.style.right = right + "px";
+            }
+        }
+    })
+</script>
