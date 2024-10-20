@@ -1,11 +1,17 @@
 ﻿document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.e-menu-item').forEach(link => {
-        console.log(location.pathname.toLowerCase(), link.textContent, (location.pathname.toLowerCase().endsWith(link.textContent.toLowerCase())));
-        if (location.pathname.toLowerCase().endsWith(link.textContent.toLowerCase())) {
+        const linkText = link.textContent.toLowerCase();
+        const currentPath = location.pathname.toLowerCase();
+        if (linkText === 'dashboard' && currentPath === '/') {
+            link.classList.add('active-menu-item');
+            console.log('Dashboard active:', link);
+        }
+        else if (currentPath.endsWith(linkText)) {
             link.classList.add('active-menu-item');
             console.log(link);
-        } else {
+        }
+        else {
             link.classList.remove('active-menu-item');
         }
     });
-})
+});
