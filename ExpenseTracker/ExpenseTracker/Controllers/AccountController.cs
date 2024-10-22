@@ -81,8 +81,8 @@ public class AccountController : Controller
             return View(request);
         }
 
-        var user = new IdentityUser<Guid> { Id = Guid.NewGuid(), UserName = model.UserName, Email = model.Email };
-        var result = await _userManager.CreateAsync(user, model.Password);
+        var user = new IdentityUser<Guid> { Id = Guid.NewGuid(), UserName = request.UserName, Email = request.Email };
+        var result = await _userManager.CreateAsync(user, request.Password);
 
 
         if (result.Succeeded)
@@ -197,7 +197,7 @@ public class AccountController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> ForgotPassword(Application.Requests.Auth.ForgotPasswordRequest request)
+    public async Task<IActionResult> ForgotPassword(ForgotPasswordRequest request)
     {
         var user = await _userManager.FindByEmailAsync(request.Email);
 

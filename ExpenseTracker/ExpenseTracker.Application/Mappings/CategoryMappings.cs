@@ -2,7 +2,7 @@
 using ExpenseTracker.Application.ViewModels.Category;
 using ExpenseTracker.Domain.Entities;
 
-namespace ExpenseTracker.Mappings;
+namespace ExpenseTracker.Application.Mappings;
 
 public static class CategoryMappings
 {
