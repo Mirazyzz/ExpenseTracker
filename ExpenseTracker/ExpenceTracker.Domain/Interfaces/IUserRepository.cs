@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using ExpenseTracker.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace ExpenseTracker.Domain.Interfaces;
 
 public interface IUserRepository
 {
-    List<IdentityUser<Guid>> GetAll();
-    IdentityUser<Guid> GetById(Guid id);
-    IdentityUser<Guid>? GetByEmail(string email);
+    List<Account> GetAll();
+    Account GetById(Guid id);
+    Account? GetByEmail(string email);
 }

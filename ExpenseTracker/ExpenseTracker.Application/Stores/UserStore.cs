@@ -5,14 +5,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ExpenseTracker.Application.Mappings;
 using Microsoft.AspNetCore.Http;
+using ExpenseTracker.Domain.Entities;
 
 namespace ExpenseTracker.Application.Stores
 {
     public class UserStore : IUserStore
     {
-        private readonly UserManager<IdentityUser<Guid>> _userManager;
+        private readonly UserManager<Account> _userManager;
 
-        public UserStore(UserManager<IdentityUser<Guid>> userManager)
+        public UserStore(UserManager<Account> userManager)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }

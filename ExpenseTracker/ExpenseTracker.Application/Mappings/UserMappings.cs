@@ -1,5 +1,6 @@
 using ExpenseTracker.Application.Requests.User;
 using ExpenseTracker.Application.ViewModels.User;
+using ExpenseTracker.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace ExpenseTracker.Application.Mappings;
@@ -17,9 +18,9 @@ public static class UserMappings
         };
     }
 
-    public static IdentityUser<Guid> ToEntity(this CreateUserRequest request)
+    public static Account ToEntity(this CreateUserRequest request)
     {
-        return new IdentityUser<Guid>
+        return new Account
         {
             UserName = request.UserName,
             Email = request.Email,

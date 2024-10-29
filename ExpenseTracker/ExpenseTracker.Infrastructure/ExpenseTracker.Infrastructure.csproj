@@ -8,11 +8,15 @@
 
   <ItemGroup>
     <None Remove="Email\Templates\EmailConfirmation.html" />
+    <None Remove="Email\Templates\ResetPassword.html" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Email\Templates\EmailConfirmation.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Email\Templates\ResetPassword.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
 

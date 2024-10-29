@@ -1,3 +1,4 @@
+@using ExpenseTracker.Application.Requests.Wallet
 @model IEnumerable<ExpenseTracker.Application.ViewModels.Wallet.WalletViewModel>
 
 @{
@@ -143,12 +144,16 @@
                 url: '/wallets/create',
                 type: 'GET',
                 success: function (data) {
-                    console.log("Bajarildi");
+                    $.getScript('/lib/jquery-validation/dist/jquery.validate.min.js', function () {
+                        $.getScript('/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js');
+                    });
                     $('#walletCreateContent').html(data);
+
                     $('#walletCreatemodal').modal({
                         backdrop: 'static',
-                        keyboard: false
+                        keyboard: false                  
                     }).modal('show');
+
                 },
                 error: function (error) {
                     alert("Yaratish oynasini ochishda muommo bo'ldi \n" + error);

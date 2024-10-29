@@ -3,11 +3,11 @@
 
 @{
     ViewData["PageTitle"] = "Create new Wallet";
-    Layout = null;
+    Layout = "~/Views/Shared/_ModalForLayout.cshtml";
 }
 
 <div class="widget p-5" style="background-color:#212b36">    
-    <form asp-action="Create">
+    <form id="createWalletForm" asp-action="Create">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="mb-3">
             <ejs-textbox id="title" placeholder="Title" ejs-for="Name" floatLabelType="Always"></ejs-textbox>
@@ -35,6 +35,31 @@
     </form>
 </div>
 
+
+@* <script>
+    $('#createWalletForm').submit(function (e) {
+        e.preventDefault();
+        var formData = $(this).serialize();
+        $.ajax({
+            type: 'POST',
+            url: '/wallets/create',
+            data: formData,
+            success: function (response) {
+               
+                if (response.success) {
+                    $('#createWalletForm')[0].reset();
+                    $('#walletCreatemodal').modal('hide');
+                } else {
+                    $('#createWalletForm').prepend('<div class="alert alert-danger">' + response.errors.join('<br>') + '</div>');
+                }                    
+            },
+            error: function (error) {
+                alert(error);
+            }
+        });
+    });
+</script> *@
+
 <style>
     .lSize {
         font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif";
@@ -43,6 +68,12 @@
         user-select: none;
     }
 </style>
+
+@section scripts {
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
 
 <script src="~/js/site.js" asp-append-version="true"></script>
 <script src="~/js/signalr/dist/browser/signalr.js"></script>

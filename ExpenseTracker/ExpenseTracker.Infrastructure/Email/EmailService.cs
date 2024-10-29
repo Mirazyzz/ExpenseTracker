@@ -11,13 +11,11 @@ namespace ExpenseTracker.Infrastructure.Email;
 
 public class EmailService : IEmailService
 {
-    private readonly EmailOptions _options;
-    private readonly IWebHostEnvironment _env;
+    private readonly EmailOptions _options;   
 
-    public EmailService(IOptionsMonitor<EmailOptions> options, IWebHostEnvironment webHostEnvironment)
+    public EmailService(IOptionsMonitor<EmailOptions> options)
     {
-        _options = options.CurrentValue;
-        _env = webHostEnvironment;
+        _options = options.CurrentValue;   
     }
 
     public void SendWelcome(EmailMessage message)
@@ -44,6 +42,8 @@ public class EmailService : IEmailService
     public void SendEmailConfirmation(EmailMessage message, UserInfo userInfo)
     {
         var emailMessage = CreateEmailMessage(message, "EmailConfirmation", userInfo);
+
+        SendWelcome(message);
 
         Send(emailMessage);
     }
@@ -77,9 +77,10 @@ public class EmailService : IEmailService
     }
 
     private MimeMessage CreateEmailMessage(EmailMessage emailMessage, string templateName, UserInfo? userInfo = null)
-    {
-        //string templatePath = Path.Combine(_env.ContentRootPath, "Email", "Templates", $"{templateName}.html");
-        var templatePath = Path.Combine(AppContext.BaseDirectory, "Email/Templates", templateName);
+    {        
+        var rootPath = Directory.GetCurrentDirectory();
+        var templatePath = Path.Combine(rootPath+ ".Infrastructure", "Email\\Templates", templateName+".html");
+           
         var body = File.ReadAllText(templatePath)
                        .Replace("{{user_name}}", emailMessage.Username)
                        .Replace("{{user_email}}", emailMessage.Username)

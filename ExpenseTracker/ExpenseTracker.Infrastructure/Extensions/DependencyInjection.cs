@@ -1,4 +1,5 @@
 ﻿using ExpenseTracker.Application.Services.Interfaces;
+using ExpenseTracker.Domain.Entities;
 using ExpenseTracker.Domain.Interfaces;
 using ExpenseTracker.Infrastructure.Configurations;
 using ExpenseTracker.Infrastructure.Email;
@@ -29,7 +30,7 @@ public static class DependencyInjection
             options.UseSqlServer(configuration.GetConnectionString("ExpenseTrackerDbContextConnection")));
 
         services
-            .AddIdentity<IdentityUser<Guid>, IdentityRole<Guid>>(options =>
+            .AddIdentity<Account, IdentityRole<Guid>>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = true;
                 options.SignIn.RequireConfirmedPhoneNumber = false;

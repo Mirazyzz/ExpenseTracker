@@ -8,6 +8,7 @@ public record CreateWalletRequest(
     [Required(ErrorMessage = "Name is required")]
     string Name, 
     string? Description,
+    [Range(1, int.MaxValue, ErrorMessage = "Balance should be higher than $1.")]
     [Required(ErrorMessage = "Balance entry is mandatory")]
     decimal Balance)  
     : UserRequestId(UserId: UserId);
