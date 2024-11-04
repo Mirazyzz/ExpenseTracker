@@ -9,14 +9,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="900061b5-3f7a-4cfd-b8a4-4306a60c8c8d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/ExpenseTracker.Application/Mappings/UserMappings.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExpenseTracker.Application/Requests/User/CreateUserRequest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExpenseTracker.Application/Requests/User/GetUserRequest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExpenseTracker.Application/Requests/User/UpdateUserRequest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExpenseTracker.Application/Requests/User/UserRequest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExpenseTracker.Application/ViewModels/User/UserViewModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpenseTracker.Application/ViewModels/Transfer/TransferViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpenseTracker.Application/ViewModels/Transfer/TransferViewModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpenseTracker/Controllers/AccountController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpenseTracker/Controllers/AccountController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpenseTracker.Application/Stores/WalletStore.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpenseTracker.Application/Stores/WalletStore.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpenseTracker/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/ExpenseTracker/appsettings.Development.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,26 +40,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET Launch Settings Profile.ExpenseTracker: http.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Launch Settings Profile.ExpenseTracker: http.executor": "Debug",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "10-user-settings",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;/Users/begzhanmaxamatxanov/Library/Application Support/JetBrains/Rider2024.1/resharper-host/DecompilerCache&quot;,
-      &quot;/Users/begzhanmaxamatxanov/Library/Application Support/JetBrains/Rider2024.1/resharper-host/SourcesCache&quot;,
-      &quot;/Users/begzhanmaxamatxanov/Library/Application Support/Symbols/src&quot;
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "/Users/begzhanmaxamatxanov/Library/Application Support/JetBrains/Rider2024.1/resharper-host/DecompilerCache",
+      "/Users/begzhanmaxamatxanov/Library/Application Support/JetBrains/Rider2024.1/resharper-host/SourcesCache",
+      "/Users/begzhanmaxamatxanov/Library/Application Support/Symbols/src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected=".NET Launch Settings Profile.ExpenseTracker: http">
     <configuration name="ExpenseTracker: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/ExpenseTracker/ExpenseTracker.csproj" />
@@ -109,6 +103,7 @@
       <workItem from="1729593492832" duration="5628000" />
       <workItem from="1729601442101" duration="463000" />
       <workItem from="1729687703206" duration="825000" />
+      <workItem from="1730742078634" duration="415000" />
     </task>
     <servers />
   </component>
@@ -118,24 +113,5 @@
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/ExpenseTracker/Controllers/AccountController.cs</url>
-          <line>46</line>
-          <properties documentPath="$PROJECT_DIR$/ExpenseTracker/Controllers/AccountController.cs" containingFunctionPresentation="Method 'Login'">
-            <startOffsets>
-              <option value="1549" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1550" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

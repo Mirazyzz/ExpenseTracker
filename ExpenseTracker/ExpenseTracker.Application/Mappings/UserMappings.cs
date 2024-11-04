@@ -12,6 +12,9 @@ public static class UserMappings
         {
             Id = user.Id,
             UserName = user.UserName!,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Birthdate = user.Birthdate,
             Email = user.Email!,
             PhoneNumber = user.PhoneNumber
         };
@@ -22,6 +25,10 @@ public static class UserMappings
         return new ApplicationUser
         {
             UserName = request.UserName,
+            FirstName = request.FirstName,
+            LastName = request.LastName,
+            Birthdate = request.Birthdate,
+            ImageFileId = request.ImageFileId,
             Email = request.Email,
             PhoneNumber = request.PhoneNumber
         };
@@ -32,6 +39,10 @@ public static class UserMappings
         return new ApplicationUser
         {
             UserName = request.UserName,
+            FirstName = request.FirstName,
+            LastName = request.LastName,
+            Birthdate = request.Birthdate,
+            ImageFileId = request.ImageFileId,
             Email = request.Email,
             PhoneNumber = request.PhoneNumber
         };

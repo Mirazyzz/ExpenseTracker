@@ -1,8 +1,6 @@
+using ExpenseTracker.Application.Requests.Common;
+
 namespace ExpenseTracker.Application.Requests.User;
 
-public sealed record UserRequest(
-    Guid Id,
-    string UserName,
-    string Email,
-    string? PhoneNumber)
-    : Common.UserRequestId(Id);
+public sealed record UserRequest(Guid Id)
+    : UserRequestId(Id);

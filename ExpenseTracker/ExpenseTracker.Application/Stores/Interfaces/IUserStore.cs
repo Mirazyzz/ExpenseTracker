@@ -9,7 +9,7 @@ public interface IUserStore
 {
     Task<List<UserViewModel>> GetAll(GetUserRequest request);
     Task<UserViewModel> GetById(UserRequest request);
-    Task<UserViewModel> Create(CreateUserRequest request, IEnumerable<IFormFile> attachments);
-    Task Update(UpdateUserRequest request);
+    Task<UserViewModel> Create(CreateUserRequest request, IFormFile attachment);
+    Task Update(UpdateUserRequest request, IFormFile? attachment);
     Task Delete(UserRequest request);
 }

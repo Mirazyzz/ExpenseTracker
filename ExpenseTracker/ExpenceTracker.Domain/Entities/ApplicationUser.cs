@@ -9,6 +9,8 @@ namespace ExpenseTracker.Domain.Entities
         public DateTime? Birthdate { get; set; }
 
         public virtual ICollection<Notification> Notifications { get; set; }
+        public int? ImageFileId { get; set; }
+        public virtual ImageFile? Image { get; set; }
 
         public ApplicationUser()
         {

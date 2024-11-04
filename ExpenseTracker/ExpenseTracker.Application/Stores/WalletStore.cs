@@ -6,6 +6,7 @@ using ExpenseTracker.Application.Requests.WalletShare;
 using ExpenseTracker.Application.Services.Interfaces;
 using ExpenseTracker.Application.Stores.Interfaces;
 using ExpenseTracker.Application.ViewModels.Wallet;
+using ExpenseTracker.Application.ViewModels.WalletShare;
 using ExpenseTracker.Domain.Entities;
 using ExpenseTracker.Domain.Enums;
 using ExpenseTracker.Domain.Exceptions;
@@ -49,6 +50,11 @@ internal sealed class WalletStore : IWalletStore
         var viewModel = wallet.ToViewModel();
 
         return viewModel;
+    }
+
+    public WalletShareViewModel GetWalletShareById(WalletShareRequest request)
+    {
+        throw new NotImplementedException();
     }
 
     public WalletViewModel Create(CreateWalletRequest request)

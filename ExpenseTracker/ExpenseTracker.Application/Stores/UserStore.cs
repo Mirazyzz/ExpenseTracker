@@ -49,7 +49,7 @@ namespace ExpenseTracker.Application.Stores
             return userViewModel;
         }
 
-        public async Task<UserViewModel> Create(CreateUserRequest request, IEnumerable<IFormFile> attachments)
+        public async Task<UserViewModel> Create(CreateUserRequest request, IFormFile? attachment)
         {
             var user = request.ToEntity();
 
@@ -61,12 +61,32 @@ namespace ExpenseTracker.Application.Stores
                 throw new Exception($"Error creating user: {errors}");
             }
 
+            if (attachment != null)
+            {
+                using var stream = new MemoryStream();
+                await attachment.CopyToAsync(stream);
+                user.Image.Data = stream.ToArray();
+            }
+            else
+            {
+                user.Image.Data = Array.Empty<byte>();
+            }
+
+            var updateResult = await _userManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+            {
+                var updateErrors = string.Join(", ", updateResult.Errors.Select(e => e.Description));
+                throw new Exception($"Error updating user with image: {updateErrors}");
+            }
+
             var userViewModel = user.ToViewModel();
 
             return userViewModel;
         }
 
-        public async Task Update(UpdateUserRequest request)
+
+
+        public async Task Update(UpdateUserRequest request, IFormFile? attachment)
         {
             var user = await _userManager.FindByIdAsync(request.Id.ToString());
 
@@ -76,8 +96,18 @@ namespace ExpenseTracker.Application.Stores
             }
 
             user.UserName = request.UserName;
+            user.FirstName = request.FirstName;
+            user.LastName = request.LastName;
+            user.Birthdate = request.Birthdate;
             user.Email = request.Email;
             user.PhoneNumber = request.PhoneNumber;
+
+            if (attachment != null)
+            {
+                using var stream = new MemoryStream();
+                await attachment.CopyToAsync(stream);
+                user.Image.Data = stream.ToArray();
+            }
 
             var result = await _userManager.UpdateAsync(user);
 
@@ -87,6 +117,7 @@ namespace ExpenseTracker.Application.Stores
                 throw new Exception($"Error when updating user: {errors}");
             }
         }
+
 
         public async Task Delete(UserRequest request)
         {
