@@ -35,7 +35,6 @@ internal sealed class WalletStore : IWalletStore
 
         var viewModels = wallets
             .Select(x => x.ToViewModel())
-            .OrderByDescending(x => x.Id)
             .ToList();
 
         return viewModels;

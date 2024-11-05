@@ -1,7 +1,7 @@
 ﻿@model ExpenseTracker.Application.ViewModels.Category.CategoryViewModel;
 
 <div class="modal fade" id="updateCategoryModal" tabindex="-1" aria-labelledby="updateCategoryModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header d-flex justify-content-center">
                 <h5 class="modal-title">Edit Category</h5>
@@ -41,11 +41,10 @@
 
             success: function (data) {
                 console.log(data);
-                $('#categoryIdEdit').val(data.Id);
                 $('#categoryNameEdit').val(data.Name);
+                $('#categoryDescriptionEdit').val(data.Description);
                 $('#categoryTypeEdit').val(data.Type);
-                
-                $('#categoryDescriptionEdit').text(data.Description);
+                $('#categoryIdEdit').val(data.Id);
 
                 $('#updateCategoryModal').modal('show');
             },

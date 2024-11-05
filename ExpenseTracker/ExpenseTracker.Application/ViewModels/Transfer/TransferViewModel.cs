@@ -10,7 +10,7 @@ public class TransferViewModel
     public decimal Amount { get; init; }
     public DateTime Date { get; init; }
 
-    public required WalletViewModel Wallet { get; set; }
+    public WalletViewModel Wallet { get; set; }
     public required CategoryViewModel Category { get; init; }
 
     public List<string> Images { get; init; }

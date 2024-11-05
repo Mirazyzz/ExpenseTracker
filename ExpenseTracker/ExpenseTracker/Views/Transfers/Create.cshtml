@@ -2,75 +2,80 @@
 
 @{
     ViewData["PageTitle"] = "Create new transaction";
-    Layout = "~/Views/Shared/_ModalForLayout.cshtml";
 }
 
-<form asp-action="Create" enctype="multipart/form-data" method="post" id="transfer-form">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" name="TransactionId" value="@Model" />
-    <div class="mb-3">
-        <ejs-combobox id="wallets-combobox"
-                      name="WalletId"
-                      filterType="Contains"
-                      allowFiltering="true"
-                      allowObjectBinding="true"
-                      ignoreAccent="true"
-                      dataSource="@ViewBag.Wallets"
-                      placeholder="Select a wallet"
-                      popupHeight="220px"
-                      value="@ViewBag.DefaultWallet"
-                      floatLabelType="Always" required>
-            <e-combobox-fields value="Id" text="Name"></e-combobox-fields>
-        </ejs-combobox>
-        <span asp-validation-for="WalletId" class="text-danger fs-6"></span>
+<div class="row">
+    <div class="col-md-7">
+        <div class="widget p-5 " style="background-color:#212b36">
+            <form asp-action="Create" enctype="multipart/form-data" method="post" id="transfer-form">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" name="TransactionId" value="@Model" />
+                <div class="mb-3">
+                    <ejs-combobox id="wallets-combobox"
+                                  name="WalletId"
+                                  filterType="Contains"
+                                  allowFiltering="true"
+                                  allowObjectBinding="true"
+                                  ignoreAccent="true"
+                                  dataSource="@ViewBag.Wallets"
+                                  placeholder="Select a wallet"
+                                  popupHeight="220px"
+                                  value="@ViewBag.DefaultWallet"
+                                  floatLabelType="Always">
+                        <e-combobox-fields value="Id" text="Name"></e-combobox-fields>
+                    </ejs-combobox>
+                    <span asp-validation-for="WalletId" class="text-danger fs-6"></span>
+                </div>
+                <div class="mb-3">
+                    <ejs-combobox id="categories-combobox"
+                                  name="categoryId"
+                                  filterType="Contains" 
+                                  allowFiltering="true"
+                                  allowObjectBinding="true"
+                                  ignoreAccent="true"  
+                                  dataSource="@ViewBag.Categories" 
+                                  placeholder="Select a category" 
+                                  popupHeight="220px"
+                                  value="@ViewBag.DefaultCategory"
+                                  floatLabelType="Always">
+                        <e-combobox-fields value="Id" text="Name"></e-combobox-fields>
+                    </ejs-combobox>
+                    <span asp-validation-for="CategoryId" class="text-danger fs-6"></span>
+                </div>
+                <div class="mb-3">
+                    <ejs-numerictextbox id="amount" 
+                                        ejs-for="Amount"
+                                        placeholder="Amount" 
+                                        floatLabelType="Always"
+                                        min="1" 
+                                        format="c0"></ejs-numerictextbox>
+                    <span asp-validation-for="Amount" class="text-danger fs-6"></span>
+                </div>
+                <div class="mb-3">
+                    <ejs-datepicker id="date"
+                                    placeholder="Select Date"
+                                    floatLabelType="Always"
+                                    value="@Model.Date"
+                                    format="MM/dd/yyyy">
+                    </ejs-datepicker>
+                </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label label-size">Attachments</label>
+                    <ejs-uploader id="upload-files"
+                                  autoUpload="false"
+                                  name="attachments" />
+                </div>
+                <div class="mb-3">
+                    <ejs-textbox id="note" placeholder="Notes" ejs-for="Notes"
+                                 floatLabelType="Always" multiline="true"></ejs-textbox>
+                </div>
+                <div class="d-grid">
+                    <ejs-button id="submit" type="submit" content="Submit" cssClass="e-success" onclick="validate()"></ejs-button>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="mb-3">
-        <ejs-combobox id="categories-combobox"
-                      name="categoryId"
-                      filterType="Contains"
-                      allowFiltering="true"
-                      allowObjectBinding="true"
-                      ignoreAccent="true"
-                      dataSource="@ViewBag.Categories"
-                      placeholder="Select a category"
-                      popupHeight="220px"
-                      value="@ViewBag.DefaultCategory"
-                      floatLabelType="Always" required >
-            <e-combobox-fields value="Id" text="Name"></e-combobox-fields>
-        </ejs-combobox>
-        <span asp-validation-for="CategoryId" class="text-danger fs-6"></span>
-    </div>
-    <div class="mb-3">
-        <ejs-numerictextbox id="amount"
-                            ejs-for="Amount"
-                            placeholder="Amount"
-                            floatLabelType="Always"
-                            min="1"
-                            format="c0" required></ejs-numerictextbox>
-        <span asp-validation-for="Amount" class="text-danger fs-6" ></span>
-    </div>
-    <div class="mb-3">
-        <ejs-datepicker id="date"
-                        placeholder="Select Date"
-                        floatLabelType="Always"
-                        value="@Model.Date"
-                        format="dd/MM/yyyy" required>
-        </ejs-datepicker>
-    </div>
-    <div class="mb-3">
-        <label for="image" class="form-label label-size">Attachments</label>
-        <ejs-uploader id="upload-files"
-                      autoUpload="false"
-                      name="attachments" />
-    </div>
-    <div class="mb-3">
-        <ejs-textbox id="note" placeholder="Notes" ejs-for="Notes"
-                     floatLabelType="Always" multiline="true"></ejs-textbox>
-    </div>
-    <div class="d-grid">
-        <ejs-button id="submit" type="submit" content="Submit" cssClass="e-success" onclick="validate()"></ejs-button>
-    </div>
-</form>
+</div>
 
 <script>
     function addFile() {

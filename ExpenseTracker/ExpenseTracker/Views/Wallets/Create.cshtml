@@ -1,78 +1,55 @@
-﻿<div class="modal fade" id="createWalletModal" tabindex="-1" aria-labelledby="createCategoryModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header d-flex justify-content-center">
-                <h5 class="modal-title">New wallet</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal">
-                    <span aria-hidden="true"></span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="createWalletForm" asp-action="Create">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="mb-3">
-                        <ejs-textbox name="Name" id="title" placeholder="Title" class="form-control" floatLabelType="Always" required></ejs-textbox>
-                    </div>
-                    <div class="mb-3">
-                        <ejs-numerictextbox id="balance"
-                                            placeholder="Balance"
-                                            floatLabelType="Always"
-                                            min="1"
-                                            format="c0" required></ejs-numerictextbox>
-                    </div>
-                    <div class="mb-3">
-                        <ejs-textbox id="note"
-                                     name="Description"
-                                     placeholder="Description"
-                                     floatLabelType="Always" multiline="true">
-                        </ejs-textbox>
-                    </div>
-                    <div class="d-grid">
-                        <ejs-button id="submit" type="submit" content="Save" cssClass="e-success"></ejs-button>
-                    </div>
-                </form>
-            </div>
+﻿@using ExpenseTracker.Application.Requests.Wallet;
+@model CreateWalletRequest;
+
+@{
+    ViewData["PageTitle"] = "Create new Wallet";
+    Layout = "~/Views/Shared/_ModalForLayout.cshtml";
+}
+
+<div class="widget p-5" style="background-color:#212b36">    
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="mb-3">
+            <ejs-textbox id="title" placeholder="Title" ejs-for="Name" floatLabelType="Always"></ejs-textbox>
+            <span asp-validation-for="Name" class="text-danger fs-6"></span>
         </div>
-    </div>
+        <div class="mb-3">
+            <ejs-numerictextbox id="balance"
+                                ejs-for="Balance"
+                                placeholder="Balance"
+                                floatLabelType="Always"
+                                min="1"
+                                format="c0"></ejs-numerictextbox>
+            <span asp-validation-for="Balance" class="text-danger fs-6"></span>
+        </div>
+        <div class="mb-3">
+            <ejs-textbox id="note"
+                         placeholder="Description"
+                         ejs-for="Description"
+                         floatLabelType="Always" multiline="true"></ejs-textbox>
+
+        </div>
+        <div class="d-grid">
+            <ejs-button id="submit" type="submit" content="Submit" cssClass="e-success"></ejs-button>
+        </div>
+    </form>
 </div>
 
-<script>
-    $('#createWalletForm').submit(function (e) {
-        e.preventDefault();
-        var formData = $(this).serialize();
-        $.ajax({
-            type: 'POST',
-            url: '/wallets/create',
-            data: formData,
-            success: function (response) {
-                if (response.success) {
-                    $('#createWalletModal').modal('hide');
-                    $('#createWalletForm')[0].reset();
-                    onSave();
-                    loadCategories();
-                } else {
-                    $('#createWalletForm').prepend('<div class="alert alert-danger">' + response.errors.join('<br>') + '</div>');
-                }
-            },
-            error: function (xhr) {
-                console.log("Error loading form: " + xhr.responseText);
-            }
-        });
-    });
-    $('#createWalletModal').on('hidden.bs.modal', function () {
-        $('#createWalletForm')[0].reset();
-        $('#createWalletForm').find('.alert').remove();
-    });
-</script>
+<style>
+    .lSize {
+        font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif";
+        font-size: 13px;
+        cursor: pointer;
+        user-select: none;
+    }
+</style>
 
-<script>
-    $('#createWalletModal').on('click', function (e) {
-        if ($(e.target).is('#createWalletModal')) {
-            const modalContent = $(this).find('.modal-content');
-            modalContent.addClass('shake');
-            setTimeout(() => {
-                modalContent.removeClass('shake');
-            }, 500);
-        }
-    });
-</script> 
+@section scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/notification.js"></script>
+<ejs-scripts></ejs-scripts>

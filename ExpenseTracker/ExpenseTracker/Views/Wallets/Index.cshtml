@@ -21,7 +21,8 @@
                                  value="@ViewBag.Search">
                     </ejs-textbox>
                 </div>
-                <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createWalletModal"> + Wallet</a>
+                <button id="openModalButton" class="btn btn-success" asp-action="create" type="button"> + Wallet
+                </button>
             </div>
         </form>
     </div>
@@ -33,9 +34,9 @@
             <e-grid-pagesettings pageSize="8"></e-grid-pagesettings>
             <e-grid-columns>              
                 <e-grid-column headerText="Name" field="Name" width="150px"></e-grid-column>
-                <e-grid-column headerText="Balance" field="Balance" textAlign="Left" format="C2" width="100px"></e-grid-column>
+                <e-grid-column headerText="Balance" field="Balance" textAlign="Right" format="C2" width="150px"></e-grid-column>
                 <e-grid-column headerText="Type" template="#typeColumnTemplate" width="100px"></e-grid-column>
-                <e-grid-column template="#actionColumnTemplate" width="120px"></e-grid-column>
+                <e-grid-column template="#actionColumnTemplate" width="180px"></e-grid-column>
             </e-grid-columns>
         </ejs-grid>
     </div>
@@ -55,24 +56,33 @@
 </script>
 
 <script id="actionColumnTemplate" type="text/x-template">
-    <div class="d-flex flex-row justify-content-start">        
-        <button type="button" class="btn btn-sm no-a-decoration" title="Details" onclick="onDetailsClick(${Id})">
+    <div class="d-flex flex-row justify-content-start">
+        <button type="button" class="e-btn e-flat mx-2 " title="Details" onclick="onDetailsClick(${Id})">
             <i class="bi bi-card-list text-info" style="font-size: 21px;"></i>
         </button>
-        <button type="button" class="btn btn-sm no-a-decoration" title="edit" onclick="onEditClick(${Id})">
-            <i class="fa-solid fa-pen fa-lg"></i>
+        <button type="button" class="e-btn e-flat btn-sm no-a-decoration" onclick="onEditClick(${Id})" data-toggle="tooltip" title="Edit wallet">
+            <i class="fa-solid fa-pen fa-lg text-warning"></i>
         </button>
-        <button class="btn btn-sm no-a-decoration" title="delete" onclick="onDeleteClick(${Id})">
+        <button type="button" class="e-btn e-flat btn-sm no-a-decoration" onclick="onDeleteClick(${Id})" data-toggle="tooltip" title="Delete wallet">
             <i class="fa-solid fa-trash-can fa-lg text-danger"></i>
         </button>
-        <button  type="button" class="btn btn-sm no-a-decoration" onclick="onShareClick(${Id})" data-toggle="tooltip" title="Share with others">
-            <i class="fa-solid fa-share fa-lg" style="line-height: 1.5;"></i>
+        <button  type="button" class="e-btn e-flat btn-sm no-a-decoration" onclick="onShareClick(${Id})" data-toggle="tooltip" title="Share with others">
+            <i class="fa-solid fa-share fa-lg"></i>
         </button>
     </div>
 </script>
 
+<div class="modal fade" id="walletdetailsmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body" id="detailsContent">
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="walletdeletemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog  modal-dialog-centered">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-body" id="deleteContent">
             </div>
@@ -81,7 +91,7 @@
 </div>
 
 <div class="modal fade" id="walletSharemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" style="width:600px">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header d-flex justify-content-center">
                 <h4 class="modal-title">Wallet share</h4>
@@ -96,7 +106,7 @@
 </div>
 
 <div class="modal fade" id="walletEditmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header d-flex justify-content-center">
                 <h4 class="modal-title">Wallet edit</h4>
@@ -110,63 +120,51 @@
     </div>
 </div>
 
-@await Html.PartialAsync("Create")
-@await Html.PartialAsync("Details")
-
-<script>
-    function loadCategories() {
-        $.ajax({
-            type: 'GET',
-            url: '/getWallets',
-            contentType: 'json',
-            success: function (data) {
-                onSave();
-                const grid = document.getElementById("wallets-list").ej2_instances[0];
-                grid.dataSource = data;
-                grid.refresh();
-            },
-        });
-    }
-</script>
-
-<div id="successModal" class="succes-modal">
-    <div class="succes-modal-content">
-        <div class="success-icon">
-            &#10004;
+<div class="modal fade" id="walletCreatemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-center">
+                <h4 class="modal-title">New wallet </h4>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body" id="walletCreateContent">
+            </div>
         </div>
-        <h2>Success</h2>
-        <p>Your data has been successfully submitted!</p>
-        <button class="succes-btn" id="okBtn">OK</button>
     </div>
 </div>
 
 <script>
-    function onSave() {
-        const modal = document.getElementById('successModal');
-        const submitBtn = document.querySelectorAll('#submitBtn');
-        const okBtn = document.querySelector('#okBtn');
+    $(document).ready(function () {
+        $('#openModalButton').on('click', function () {
+            $('#walletCreateContent').empty();
+            $.ajax({
+                url: '/wallets/create',
+                type: 'GET',
+                success: function (data) {
+                    $.getScript('/lib/jquery-validation/dist/jquery.validate.min.js', function () {
+                        $.getScript('/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js');
+                    });
+                    $('#walletCreateContent').html(data);
+                    $('#walletCreatemodal').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    }).modal('show');
+                },
+                error: function (error) {
+                    alert("Yaratish oynasini ochishda muommo bo'ldi \n" + error);
+                }
+            });
+            $(this).find('#walletCreateContent').empty();
+            $(this).off('hidden.bs.modal');
+        });
+    });
 
-        submitBtn.forEach((btn) => {
-            btn.addEventListener('click', () => {
-                modal.style.display = 'block';
-
-                setTimeout(() => {
-                    modal.style.display = 'none'
-                }, 3000)
-            })
-
-        })
-
-        okBtn.addEventListener('click', () => {
-            modal.style.display = 'none';
-        })
-
-        window.onclick = function (event) {
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        }
-    }
+    $('#walletCreatemodal').on('hidden.bs.modal', function () {
+        $(this).find('#walletCreateContent').empty();
+        $(this).off('hidden.bs.modal'); 
+    });
 </script>
 
 <script type="text/javascript">
@@ -188,15 +186,25 @@
         });
         $(this).find('#walletEditContent').empty();
         $(this).off('hidden.bs.modal');
-        $('#walletEditmodal').on('click', function (e) {
-            if ($(e.target).is('#walletEditmodal')) {
-                const modalContent = $(this).find('.modal-content');
-                modalContent.addClass('shake');
-                setTimeout(() => {
-                    modalContent.removeClass('shake');
-                }, 500);
+    }
+</script>
+
+<script type="text/javascript">
+    function onDetailsClick(id) {
+        $('#detailsContent').empty();
+        $.ajax({
+            url: "/wallets/details/" + id,
+            type: 'GET',
+            success: function (data) {              
+                $('#detailsContent').html(data);
+                $('#walletdetailsmodal').modal('show');
+            },
+            error: function (error) {
+                alert("Malumotlar oynasini ochishda muommo bo'ldi \n" + error);
             }
         });
+        $(this).find('#detailsContent').empty();
+        $(this).off('hidden.bs.modal');
     }
 </script>
 
@@ -208,10 +216,7 @@
             type: 'GET',
             success: function (data) {
                 $('#deleteContent').html(data);
-                $('#walletdeletemodal').modal({
-                    backdrop: 'static',
-                    keyboard: false
-                }).modal('show');
+                $('#walletdeletemodal').modal('show');
             },
             error: function (error) {
                 alert("Error \n" + error);
@@ -219,15 +224,6 @@
         });
         $(this).find('#deleteContent').empty();
         $(this).off('hidden.bs.modal');
-        $('#walletdeletemodal').on('click', function (e) {
-            if ($(e.target).is('#walletdeletemodal')) {
-                const modalContent = $(this).find('.modal-content');
-                modalContent.addClass('shake');
-                setTimeout(() => {
-                    modalContent.removeClass('shake');
-                }, 500);
-            }
-        });
     }
 </script>
 
@@ -250,15 +246,6 @@
         });
         $(this).find('#walletShareContent').empty();
         $(this).off('hidden.bs.modal');
-        $('#walletSharemodal').on('click', function (e) {
-            if ($(e.target).is('#walletSharemodal')) {
-                const modalContent = $(this).find('.modal-content');
-                modalContent.addClass('shake');
-                setTimeout(() => {
-                    modalContent.removeClass('shake');
-                }, 500);
-            }
-        });
     }
 </script>
 

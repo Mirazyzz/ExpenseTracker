@@ -592,16 +592,12 @@ input[type="file"] {
 
 /* Modal Animation */
 .modal.fade .modal-dialog {
-    transform: scale(0.5);
-    opacity: 0;
-    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    transition: transform 0.3s ease-out;
 }
 
 .modal.show .modal-dialog {
-    transform: scale(1);
-    opacity: 1;
+    transform: translateY(0);
 }
-
 
 /* Input focus border on hover */
 input[type="text"]:hover,
@@ -610,11 +606,17 @@ select:hover {
 }
 /* Scrollbar for modal */
 .modal-body {
+    max-height: 400px;
     overflow-y: auto;
 }
 
 ::-webkit-scrollbar {
-    width: 5px;
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #3c3c4f;
+    border-radius: 10px;
 }
 
 .modal-backdrop {

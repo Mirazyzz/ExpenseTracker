@@ -23,12 +23,10 @@ internal class TransferRepository : RepositoryBase<Transfer>, ITransferRepositor
     }
 
     // TODO: refactor this -> Extract all params into one class
-    public List<Transfer> GetAll(int? walletId, int? categoryId, string? search, Guid userId)
+    public List<Transfer> GetAll(int? categoryId, string? search, Guid userId)
     {
         var query = _context.Transfers
             .AsNoTracking()
-            .Include(t => t.Wallet)
-            .ThenInclude(t => t.Owner)
             .Where(t => t.Category.UserId == userId)
             .AsQueryable();
 
@@ -41,11 +39,6 @@ internal class TransferRepository : RepositoryBase<Transfer>, ITransferRepositor
         if (categoryId.HasValue)
         {
             query = query.Where(x => x.CategoryId == categoryId.Value);
-        }
-
-        if (walletId.HasValue)
-        {
-            query = query.Where(x => x.WalletId == walletId.Value); 
         }
 
         var transfers = query

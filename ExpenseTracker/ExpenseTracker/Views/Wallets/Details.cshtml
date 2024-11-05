@@ -1,90 +1,37 @@
-﻿<div class="modal fade" id="detailsWalletModal" tabindex="-1" aria-labelledby="detailsWalletModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content w-100">
-            <div class="modal-header d-flex justify-content-center">
-                <div><h5 class="modal-title">Details</h5></div>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal">
-                    <span aria-hidden="true"></span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="grid-container">
-                    <div class="row content">
-                        <div class="col text-center">
-                            Name
-                        </div>
-                        <div class="col text-center">
-                            Type
-                        </div>
-                    </div>
-                    <div class="row value">
-                        <div class="col text-center">
-                            <span id="detailsWalletName"></span>
-                        </div>
-                        <div class="col text-center">
-                            <span id="detailsWalletType" template="#typeColumnTemplate"></span>
-                        </div>
-                    </div>
-                    <div class="row content">
-                        <div class="col text-center">
-                            Balance
-                        </div>
-                        <div class="col text-center">
-                            Description
-                        </div>                       
-                    </div>
-                    <div class="row comments" >
-                        <div class="col text-center" style="border-right: 0.1px solid #444C54; height: 100%;">
-                            <span id="detailsWalletBalance"></span>
-                        </div>
-                        <div class="col text-center">
-                            <span id="detailsWalletDescription"></span>
-                            <div id="commentsDisplay"></div>
-                        </div>
-                    </div>                   
-                    <input type="hidden" id="detailsWalletId">
-                </div>
-            </div>
-        </div>
+﻿@model ExpenseTracker.Application.ViewModels.Wallet.WalletViewModel
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Details";
+}
+
+<div>
+    <h4 class="d-flex justify-content-center">Wallet details</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name):
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Balance):
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Balance)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description):
+        </dt>
+        <dd class="col-sm-20">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+    <div class="d-flex justify-content-center">
+        <form asp-action="Index">
+            <button class="btn btn-secondary"
+            style="width:99.49px">Close</button>
+        </form>
     </div>
 </div>
-
-<script>
-    function onDetailsClick(id) {
-        $.ajax({
-            type: 'GET',
-            url: `/wallets/details/${id}`,
-            success: function (data) {
-                console.log(data);
-                $('#detailsWalletName').text(data.Name);
-                $('#detailsWalletId').val(data.Id);
-                $('#detailsWalletBalance').text(data.Balance);
-                var comment = data.Description ? data.Description.trim() : "No comment";
-                $("#detailsWalletDescription").text(comment);
-
-                // Display Type as "Income" or "Expense"
-                const typeColumnContent = data.Type === 0
-                    ? '<span class="badge bg-danger">Main</span>'
-                    : '<span class="badge bg-secondary">Secondary</span>';
-                document.getElementById("detailsWalletType").innerHTML = typeColumnContent;
-
-                // Show the modal
-                $('#detailsWalletModal').modal('show');
-            },
-            error: function (error) {
-                console.log('Error fetching category details:', error);
-            }
-        });
-    }
-
-    // Add shake effect on modal background click
-    $('#detailsWalletModal').on('click', function (e) {
-        if ($(e.target).is('#detailsWalletModal')) {
-            const modalContent = $(this).find('.modal-content');
-            modalContent.addClass('shake');
-            setTimeout(() => {
-                modalContent.removeClass('shake');
-            }, 500);
-        }
-    });
-</script>

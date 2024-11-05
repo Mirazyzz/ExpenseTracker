@@ -29,9 +29,9 @@
         <ejs-grid id="categories" dataSource="@Model" allowSorting="true" allowPaging="true">
             <e-grid-pagesettings pageSize="8"></e-grid-pagesettings>
             <e-grid-columns>
-                <e-grid-column headerText="Name" field="Name" width="150px"></e-grid-column>
+                <e-grid-column headerText="Category" field="Name" width="150px"></e-grid-column>
                 <e-grid-column headerText="Type" template="#typeColumnTemplate" width="150px"></e-grid-column>
-                <e-grid-column template="#actionColumnTemplate" width="100px"></e-grid-column>
+                <e-grid-column headerText="Actions" template="#actionColumnTemplate" width="100px"></e-grid-column>
             </e-grid-columns>
         </ejs-grid>
     </div>
@@ -114,7 +114,7 @@
     }
 </script>
 
-<!-- modol for succces operation -->    
+<!-- modol for succces operation -->
 <div id="successModal" class="succes-modal">
     <div class="succes-modal-content">
        
@@ -155,3 +155,10 @@
         }
     }
 </script>
+
+
+
+
+
+
+

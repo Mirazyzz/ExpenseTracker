@@ -2,109 +2,45 @@
 
 @{
     ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_ModalForLayout.cshtml";
-
 }
-<form asp-action="Edit" enctype="multipart/form-data" method="post" id="transfer-form">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" name="Id" value="@Model.Id"/>
-    <div class="mb-3">
-        <ejs-combobox id="wallets-combobox"
-                      name="WalletId"
-                      filterType="Contains"
-                      allowFiltering="true"
-                      allowObjectBinding="true"
-                      ignoreAccent="true"
-                      dataSource="@ViewBag.Wallets"
-                      placeholder="Select a wallet"
-                      popupHeight="220px"
-                      value="@ViewBag.DefaultWallet"
-                      floatLabelType="Always" required>
-            <e-combobox-fields value="Id" text="Name"></e-combobox-fields>
-        </ejs-combobox>
-        <span asp-validation-for="WalletId" class="text-danger fs-6"></span>
+
+<h1>Edit</h1>
+
+<h4>Transfer</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Notes" class="control-label"></label>
+                <input asp-for="Notes" class="form-control" />
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label"></label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="ms-2">
+                    <ejs-combobox class="form-select" name="categoryId" id="categories-combobox" value="@Model.CategoryId"  dataSource="@ViewBag.Categories" popupHeight="220px">
+                        <e-combobox-fields value="Id" text="Name"></e-combobox-fields>
+                    </ejs-combobox>
+                </div>
+            </div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
-    <div class="mb-3">
-        <ejs-combobox id="categories-combobox"
-                      name="categoryId"
-                      filterType="Contains"
-                      allowFiltering="true"
-                      allowObjectBinding="true"
-                      ignoreAccent="true"
-                      dataSource="@ViewBag.Categories"
-                      placeholder="Select a category"
-                      popupHeight="220px"
-                      value="@ViewBag.DefaultCategory"
-                      floatLabelType="Always" required>
-            <e-combobox-fields value="Id" text="Name"></e-combobox-fields>
-        </ejs-combobox>
-        <span asp-validation-for="CategoryId" class="text-danger fs-6"></span>
-    </div>
-    <div class="mb-3">
-        <ejs-numerictextbox id="amount"
-                            ejs-for="Amount"
-                            placeholder="Amount"
-                            floatLabelType="Always"
-                            min="1"
-                            format="c0" required></ejs-numerictextbox>
-        <span asp-validation-for="Amount" class="text-danger fs-6"></span>
-    </div>
-    <div class="mb-3">
-        <ejs-datepicker id="date"
-                        placeholder="Select Date"
-                        floatLabelType="Always"
-                        value="@Model.Date"
-                        format="dd/MM/yyyy" required>
-        </ejs-datepicker>
-    </div>
-    <div class="mb-3">
-        <label for="image" class="form-label label-size">Attachments</label>
-        <ejs-uploader id="upload-files"
-                      autoUpload="false"
-                      name="attachments" />
-    </div>
-    <div class="mb-3">
-        <ejs-textbox id="note" placeholder="Notes" ejs-for="Notes"
-                     floatLabelType="Always" multiline="true"></ejs-textbox>
-    </div>
-    <div class="d-grid">
-        <ejs-button id="submit" type="submit" content="Submit" cssClass="e-success" onclick="validate()"></ejs-button>
-    </div>
-</form>
+</div>
 
-<script>
-    function addFile() {
-        if (fileList.length === 3) {
-            alert('You selected three pictures.');
-            return;
-        }
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
-        const fileInput = document.getElementById('fileInput');
-        const fileList = document.getElementById('fileList');
-
-        if (fileInput.files.length === 0) {
-            alert('Please select a file first');
-            return;
-        }
-
-        const fileName = fileInput.files[0].name;
-
-        // Create a new list item
-        const listItem = document.createElement('li');
-
-        listItem.innerHTML = `
-                    <span>${fileName}</span>
-                    <button onclick="removeFile(this)">Delete</button>
-                `;
-
-        fileList.appendChild(listItem);
-
-        // Reset the file input for the next file
-        fileInput.value = '';
-    }
-
-    function removeFile(button) {
-        const listItem = button.parentElement;
-        listItem.remove();
-    }
-</script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

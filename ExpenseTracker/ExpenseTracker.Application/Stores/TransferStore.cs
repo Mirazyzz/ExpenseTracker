@@ -21,11 +21,9 @@ public class TransferStore : ITransferStore
 
     public List<TransferViewModel> GetAll(GetTransfersRequest request)
     {
-        var transfers = _repository.Transfers.GetAll(request.WalletId, request.CategoryId, request.Search, request.UserId);
+        var transfers = _repository.Transfers.GetAll(request.CategoryId, request.Search, request.UserId);
         var viewModels = transfers
-            .Select(x => x.ToViewModel())
-            .OrderByDescending(x => x.Id)
-            .ToList();
+            .Select(x => x.ToViewModel()).ToList();
 
         return viewModels;
     }
@@ -33,12 +31,6 @@ public class TransferStore : ITransferStore
     public TransferViewModel GetById(TransferRequest request)
     {
         var transfer = _repository.Transfers.GetById(request.Id);
-        var wallet = _repository.Wallets.GetById(transfer.WalletId);        
-        var owner = _repository.Users.GetById(wallet.OwnerId);
-
-        transfer.Wallet = wallet;
-        transfer.Wallet.Owner = owner;
-      
         transfer.Images = _repository.ImageFiles.GetByTransferId(request.Id);
         var viewModel = transfer.ToViewModel();
 
@@ -72,14 +64,6 @@ public class TransferStore : ITransferStore
         _repository.SaveChanges(); // ACID -> Atomicity
 
         createdTransfer.Category = _repository.Categories.GetById(request.CategoryId);
-        createdTransfer.Wallet = _repository.Wallets.GetById(request.WalletId);
-
-        var wallet = _repository.Wallets.GetById(createdTransfer.WalletId);
-        var owner = _repository.Users.GetById(wallet.OwnerId);
-
-        createdTransfer.Wallet = wallet;
-        createdTransfer.Wallet.Owner = owner;
-        
         var viewModel = createdTransfer.ToViewModel();
 
         return viewModel;

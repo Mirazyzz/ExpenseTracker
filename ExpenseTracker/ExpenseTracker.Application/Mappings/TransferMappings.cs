@@ -15,7 +15,6 @@ public static class TransferMappings
             Amount = transfer.Amount,
             Date = transfer.Date,
             Category = transfer.Category.ToViewModel(),
-            Wallet = transfer.Wallet.ToViewModel(),
             Images = transfer.Images.Select(x => Convert.ToBase64String(x.Data)).ToList()
         };
     }
@@ -33,30 +32,15 @@ public static class TransferMappings
             WalletId = transfer.WalletId
         };
     }
-    public static UpdateTransferRequest ToUpdateRequest(this TransferViewModel viewModel)
-    {
-        return new UpdateTransferRequest(
-        UserId: viewModel.Wallet.UserId,  
-        Id: viewModel.Id,
-        CategoryId: viewModel.Category.Id,         
-        WalletId: viewModel.Wallet.Id,           
-        Notes: viewModel.Note,
-        Amount: viewModel.Amount,
-        Date: viewModel.Date
-        );
-    }
-
 
     public static Transfer ToEntity(this UpdateTransferRequest request)
     {
         return new Transfer
         {
-            Id = request.Id,
             Notes = request.Notes,
             Amount = request.Amount,
             Date = request.Date,
             CategoryId = request.CategoryId,
-            WalletId = request.WalletId,
             Category = null,
             Wallet = null!,
         };
