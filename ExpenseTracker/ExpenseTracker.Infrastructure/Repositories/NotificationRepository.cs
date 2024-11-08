@@ -14,7 +14,7 @@ internal class NotificationRepository : RepositoryBase<Notification>, INotificat
     public override List<Notification> GetAll(Guid userId)
     {
         var notifications = _context.Notifications
-            .Where(x => x.UserId == userId)
+            .Where(x => x.UserId == userId && !x.IsRead)
             .ToList();
         
         return notifications;

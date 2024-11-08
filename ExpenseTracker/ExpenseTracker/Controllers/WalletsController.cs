@@ -111,6 +111,13 @@ public class WalletsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    public IActionResult Shares([FromRoute] WalletShareRequest request)
+    {
+        var walletShare = _store.GetWalletShareById(request);
+
+        return View(walletShare);
+    }
+
     /// <summary>
     /// Filters wallets
     /// </summary>

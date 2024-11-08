@@ -16,7 +16,7 @@ internal sealed class WalletRepository : RepositoryBase<Wallet>, IWalletReposito
     public override List<Wallet> GetAll(Guid userId)
     {
         var wallets = _context.Wallets
-            .AsNoTracking()
+            .AsNoTracking() // Try AsNoTrackingWithIdentityResolution()
             .Include(x => x.Owner)
             .Include(x => x.Shares)
             .Where(x => x.OwnerId == userId || x.Shares.Any(s => s.UserId == userId && s.IsAccepted))

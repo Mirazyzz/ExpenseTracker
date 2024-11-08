@@ -12,3 +12,9 @@ public class Notification : AuditableEntity
     public Guid UserId { get; set; }
     public required virtual ApplicationUser User { get; set; }
 }
+
+public enum NotificationType
+{
+    WaleltInvitation,
+    Message
+}

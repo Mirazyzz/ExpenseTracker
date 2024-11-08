@@ -1,6 +1,7 @@
 ﻿@using ExpenseTracker.Application.Requests.Wallet
 @inject ExpenseTracker.Application.Stores.Interfaces.IWalletStore walletStore;
 @inject ExpenseTracker.Application.Services.Interfaces.ICurrentUserService currentUserService;
+@inject ExpenseTracker.Application.Stores.Interfaces.INotificationStore notificationStore;
 
 @{
     var request = new GetWalletsRequest(currentUserService.GetCurrentUserId(), string.Empty);
@@ -9,6 +10,7 @@
         : (bool)(ViewData["isDashboard"]);
     var wallets = walletStore.GetAll(request);
     var selectedWallet = wallets.FirstOrDefault();
+    var notificationsCount = notificationStore.CountNotifications(request);
 }
 
 <!DOCTYPE html>
@@ -54,7 +56,10 @@
                     }
                     <div style="position:relative;display:inline-block;margin:20px 20px 10px 20px;" id="notification-icon">
                         <i class="fa-solid fa-bell"></i>
-                        <span class="e-badge e-badge-danger e-badge-overlap e-badge-notification" id="notifications-count">8</span>
+                        @if (notificationsCount > 0)
+                        {
+                            <span class="e-badge e-badge-danger e-badge-overlap e-badge-notification" id="notifications-count">@notificationsCount</span>
+                        }
                     </div>
                     <div style="position:relative;display:inline-block;margin:20px 20px 10px 0px;" >
                         <i class="fa-solid fa-message"></i>
