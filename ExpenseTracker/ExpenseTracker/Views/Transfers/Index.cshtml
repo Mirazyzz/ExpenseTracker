@@ -4,44 +4,46 @@
     ViewData["PageTitle"] = "Transactions";
 }
 
-<div>
-    <div class="form-container d-flex justify-content-between">
-        <div class="d-flex gap-3">
-            <ejs-textbox id="search-box"
-                         name="search"
-                         placeholder="Search transfers"
-                         floatLabelType="Auto"
-                         value="@ViewBag.Search"
-                         input="onSearchChange">
-            </ejs-textbox>
-            <ejs-combobox id="categories"
-                          name="categoryId"
-                          placeholder="Select category"
-                          floatLabelType="Auto"
-                          width="300px"
-                          dataSource="@ViewBag.Categories"
-                          value="@ViewBag.SelectedCategory"
-                          allowObjectBinding="true"
-                          change="onCategoryChange">
-                <e-combobox-fields value="Id" text="Name"></e-combobox-fields>
-            </ejs-combobox>
-            <ejs-combobox id="wallets"
-                          name="walletId"
-                          placeholder="Select wallet"
-                          floatLabelType="Auto"
-                          width="300px"
-                          dataSource="@ViewBag.Wallets"
-                          value="@ViewBag.SelectedWallet"
-                          allowObjectBinding="true"
-                          change="onWalletChange">
-                <e-combobox-fields value="Id" text="Name"></e-combobox-fields>
-            </ejs-combobox>
-        </div>
-        <button type="button" id="openTransferModalButton" class="btn btn-success mt-4"> + Transfer</button>
+<div class="form-container d-flex justify-content-between gap-3">
+    <div class="w-50">
+        <ejs-textbox id="search-box"
+                     name="search"
+                     placeholder="Search transfers"
+                     floatLabelType="Auto"
+                     value="@ViewBag.Search"
+                     input="onSearchChange">
+        </ejs-textbox>
     </div>
+    <div class="w-50">
+        <ejs-combobox id="categories"
+                      name="categoryId"
+                      class="w-100"
+                      placeholder="Select category"
+                      floatLabelType="Auto"
+                      dataSource="@ViewBag.Categories"
+                      value="@ViewBag.SelectedCategory"
+                      allowObjectBinding="true"
+                      change="onCategoryChange">
+            <e-combobox-fields value="Id" text="Name"></e-combobox-fields>
+        </ejs-combobox>
+    </div>
+    <div class="w-50">
+        <ejs-combobox id="wallets"
+                      name="walletId"
+                      class="w-100"
+                      placeholder="Select wallet"
+                      floatLabelType="Auto"
+                      dataSource="@ViewBag.Wallets"
+                      value="@ViewBag.SelectedWallet"
+                      allowObjectBinding="true"
+                      change="onWalletChange">
+            <e-combobox-fields value="Id" text="Name"></e-combobox-fields>
+        </ejs-combobox>
+    </div>
+    <button type="button" id="openTransferModalButton" class="btn btn-success mt-4">+Transfer</button>
 </div>
 
-<div class=" mt-4">
+<div class="mt-4">
     <ejs-grid id="transactions" 
               dataSource="@Model" 
               allowSorting="true" 

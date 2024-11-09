@@ -27,4 +27,18 @@ internal sealed class CurrentUserService : ICurrentUserService
 
         return result;
     }
+    
+    public string GetCurrentUserName()
+    {
+        var user = (_contextAccessor.HttpContext?.User)
+            ?? throw new InvalidOperationException("Current context does not have user.");
+
+        var userName = user.FindFirst(ClaimTypes.Name).Value;
+        if (string.IsNullOrEmpty(userName))
+        {
+            throw new InvalidOperationException($"Could not parse user username: {userName}.");
+        }
+        
+        return userName;
+    }
 }

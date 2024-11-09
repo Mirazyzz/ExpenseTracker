@@ -17,9 +17,8 @@
     <div class="notifications-list">
         @foreach (var notification in Model)
         {
-            <div class="notification-item d-flex align-items-center p-3 border-bottom">
+            <div class="notification-item d-flex align-items-center p-3 border-bottom" onclick="openPopup('@notification.Title', '@notification.Body', event)">
                 <input type="checkbox" class="form-check-input me-3 notification-checkbox">
-                <i class="fa-solid fa-bell notification-icon me-3"></i>
                 <div class="details flex-grow-1">
                     <a href="@notification.RedirectUrl" class="text-decoration-none text-white">
                         <strong>@notification.Title</strong> <br />- @notification.Body
@@ -38,6 +37,17 @@
     </div>
 </div>
 
+<div id="popupModal" class="popup-modal">
+    <div class="popup-content">
+        <h2 id="popupTitle">Title</h2>
+        <p id="popupBody" class="popup-body">Body content</p>
+        <div class="popup-actions">
+            <button class="btn btn-danger" onclick="closePopup()">Reject</button>
+            <button class="btn btn-success" onclick="closePopup()">Accept</button>
+        </div>
+    </div>
+</div>
+
 <script>
     const checkboxes = document.querySelectorAll('.notification-checkbox');
     const doneButton = document.getElementById('doneButton');
@@ -50,12 +60,10 @@
         deleteButton.classList.toggle('d-none', !anyChecked);
     }
 
-    // Handle checkbox change to toggle Done/Delete buttons
     checkboxes.forEach(checkbox => {
         checkbox.addEventListener('change', updateButtonsVisibility);
     });
 
-    // Handle "Done" button click
     doneButton.addEventListener('click', function () {
         checkboxes.forEach(checkbox => {
             if (checkbox.checked) {
@@ -64,39 +72,47 @@
                 badge.textContent = 'Read';
                 badge.classList.remove('bg-primary');
                 badge.classList.add('bg-success');
-                checkbox.checked = false; // uncheck after marking as read
+                checkbox.checked = false;
             }
         });
         updateButtonsVisibility();
     });
 
-    // Handle "Delete" button click
     deleteButton.addEventListener('click', function () {
         checkboxes.forEach(checkbox => {
             if (checkbox.checked) {
                 const notificationItem = checkbox.closest('.notification-item');
-                notificationItem.remove(); // Remove the notification item
+                notificationItem.remove();
             }
         });
         updateButtonsVisibility();
     });
 
-    // Handle "Select All" button click
     selectAllButton.addEventListener('click', function () {
         const allChecked = [...checkboxes].every(cb => cb.checked);
 
         if (allChecked) {
-            // If all checkboxes are checked, uncheck them all
             checkboxes.forEach(checkbox => checkbox.checked = false);
             selectAllButton.textContent = 'Select all';
         } else {
-            // Otherwise, check all checkboxes
             checkboxes.forEach(checkbox => checkbox.checked = true);
             selectAllButton.textContent = `${checkboxes.length} selected`;
         }
 
-        updateButtonsVisibility(); // Update visibility of Done/Delete buttons
+        updateButtonsVisibility();
     });
+
+    function openPopup(title, body, event) {
+        if (event.target.classList.contains('notification-checkbox')) return;
+
+        document.getElementById('popupTitle').innerText = title;
+        document.getElementById('popupBody').innerText = body;
+        document.getElementById('popupModal').style.display = 'flex';
+    }
+
+    function closePopup() {
+        document.getElementById('popupModal').style.display = 'none';
+    }
 </script>
 
 <style>
@@ -122,16 +138,12 @@
         height: 100px;
         font-size: 20px;
         border-bottom: 2px solid #3D444D !important;
+        cursor: pointer;
     }
 
         .notification-item:hover {
             background-color: #192639;
         }
-
-    .notification-icon {
-        font-size: 20px;
-        color: #0366d6;
-    }
 
     .details {
         flex-grow: 1;
@@ -161,4 +173,62 @@
         background-color: #ffffff;
         border-color: #d1d5da;
     }
+
+    .popup-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        background: rgba(0, 0, 1, 0.7);
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    .popup-content {
+        background-color: #0D1117;
+        color: white;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        max-width: 90%;
+        width: 500px;
+        max-height: 90%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .popup-body {
+        font-size: 20px;
+    }
+
+    .popup-actions {
+        margin-top: 20px;
+    }
+
+        .popup-actions button {
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .popup-actions .btn-danger {
+            background-color: #FF2525;
+            color: white;
+            border-color: #FF2525;
+            font-weight: 500;
+            border-radius: 10px;
+        }
+
+        .popup-actions .btn-success {
+            background-color: #28a745;
+            color: white;
+            border-color: #28a745;
+            font-weight: 500;
+            border-radius: 10px;
+        }
 </style>

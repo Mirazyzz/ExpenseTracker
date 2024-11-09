@@ -6,21 +6,19 @@
 
 <div class="row">
     <div class="col-md-7">
-        <form method="get" class="mb">
-            <div class="form-container d-flex justify-content-between">
-                <div class="d-flex gap-3">
-                    <ejs-textbox id="search-box"
-                                 name="search"
-                                 placeholder="Search categories"
-                                 floatLabelType="Never"
-                                 width="w-75"
-                                 input="onSearchChange"
-                                 value="@ViewBag.Search">
-                    </ejs-textbox>
-                </div>
-                <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createCategoryModal" > + Category</a>
+        <div class="form-container d-flex justify-content-between gap-3">
+            <div class="w-50">
+                <ejs-textbox id="search-box"
+                             name="search"
+                             placeholder="Search categories..."
+                             floatLabelType="Never"
+                             width="w-75"
+                             input="onSearchChange"
+                             value="@ViewBag.Search">
+                </ejs-textbox>
             </div>
-        </form>
+            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createCategoryModal">+Category</button>
+        </div>
     </div>
 </div>
 

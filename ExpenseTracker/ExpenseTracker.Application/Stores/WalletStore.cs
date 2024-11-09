@@ -144,8 +144,9 @@ internal sealed class WalletStore : IWalletStore
 
             if (user is null)
             {
-                var message = new EmailMessage(userEmail, "there", "Collaboration Invitation", null);
-                _emailService.SendWalletInvitation(message);
+                var inviteSenderName = wallet.Owner.Email;
+                var message = new EmailMessage(userEmail, "", "Collaboration Invitation", null);
+                _emailService.SendWalletInvitation(message, inviteSenderName);
             }
             else
             {

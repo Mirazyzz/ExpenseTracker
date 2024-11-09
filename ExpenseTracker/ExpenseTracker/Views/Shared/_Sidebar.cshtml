@@ -1,4 +1,10 @@
-﻿@{
+﻿@inject ExpenseTracker.Application.Services.Interfaces.ICurrentUserService currentUserService;
+
+@{
+    var userName = currentUserService.GetCurrentUserName();
+}
+
+@{
     List<Object> menuItems = new List<Object>();
 
     menuItems.Add(new
@@ -50,7 +56,6 @@
     });
 }
 
-
 <ejs-sidebar id="sidebar" width="290px" enableDock dockSize="100px"
              target=".dock-target" enableGestures="false">
     <e-content-template>
@@ -66,7 +71,7 @@
         <div class="profile-wrapper">
             <img class="profile-pic" src="~/profile.jpg" />
             <div class="titles d-flex flex-column ps-3">
-                <h6 class="mb-0">Wallet App</h6>
+                <h6 class="mb-0 ellipsis" title="@userName">@userName</h6>
                 <span class="text-muted"></span>
             </div>
         </div>
@@ -80,10 +85,40 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        dockBar = document.getElementById('sidebar').ej2_instances[0];
+        const dockBar = document.getElementById('sidebar').ej2_instances[0];
+        const mainContent = document.querySelector('.main-content');
+
+        checkWidthAndToggle();
+
+        window.addEventListener('resize', checkWidthAndToggle);
+
         document.getElementById('sidebar-toggler').onclick = function () {
             dockBar.toggle();
+            mainContent.classList.toggle('sidebar-collapsed');
         };
+
+        function checkWidthAndToggle() {
+            const screenWidth = window.innerWidth;
+
+            if (screenWidth < 768 && dockbar.isOpen) {
+                dockBar.toggle();
+                mainContent.classList.add('sidebar-collapsed');
+                return;
+            }
+            if (!dockBar.isOpen) {
+                dockBar.toggle();
+                mainContent.classList.remove('sidebar-collapsed');
+            }
+        }
     });
 </script>
+
+<style>
+    .ellipsis {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 150px;
+    }
+</style>
 

@@ -360,6 +360,15 @@ li {
     content: '\f101'
 }
 
+.main-content {
+    margin-left: 290px;
+    transition: margin-left 0.3s ease;
+}
+
+    .main-content.sidebar-collapsed {
+        margin-left: 100px;
+    }
+
 /*Widget*/
 .widget {
     border-radius: 1rem;

@@ -32,7 +32,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="e-bigger">
-    <partial name="_Sidebar" />
+    <partial name="_Sidebar"/>
     <div class="dock-target">
         <nav class="navbar sticky-top">
             <div class="container-fluid py-2 px-4">
@@ -55,7 +55,7 @@
                         </ejs-combobox>
                     }
                     <div style="position:relative;display:inline-block;margin:20px 20px 10px 20px;" id="notification-icon">
-                        <i class="fa-solid fa-bell"></i>
+                        <a asp-action="Index" asp-controller="Notifications" class="no-a-decoration" > <i class="fa-solid fa-bell"></i></a>
                         @if (notificationsCount > 0)
                         {
                             <span class="e-badge e-badge-danger e-badge-overlap e-badge-notification" id="notifications-count">@notificationsCount</span>
@@ -154,9 +154,3 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-
-<script>
-    document.getElementById('notification-icon').addEventListener('click', function () {
-        window.location.href = '@Url.Action("Index", "Notification")';
-    });
-</script>
