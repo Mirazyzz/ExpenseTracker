@@ -1,6 +1,7 @@
 using ExpenseTracker.Application.Hubs;
 using ExpenseTracker.Extensions;
 using ExpenseTracker.Infrastructure.Persistence;
+using ExpenseTracker.Infrastructure.Persistence.SeedData;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,7 @@ else
     app.UseDeveloperExceptionPage();
     using var scope = app.Services.CreateScope();
     var context = scope.ServiceProvider.GetRequiredService<ExpenseTrackerDbContext>();
+    DatabaseSeeder.SeedAllData(context);
 }
 
 app.UseHttpsRedirection();
