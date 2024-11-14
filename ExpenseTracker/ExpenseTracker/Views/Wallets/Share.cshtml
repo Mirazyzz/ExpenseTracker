@@ -25,7 +25,7 @@
                         onclick="onAddUser()"></ejs-button>
         </div>
     </div>
-    <div class="my-5" style="height: 100px; overflow-y: scroll;">
+    <div style="height: 200px; overflow-y: scroll;">
         <h5 class="text-center">Selected users</h5>
         <ejs-listview id="users-list" >
             <e-listview-fieldsettings text="Text" id="Id">
@@ -47,10 +47,11 @@
         var user = emailInput.properties.value;
 
         if (!user.trim()) {
-            alert('Iltimos, foydalanuvchi emailini kiriting.');
+            alert('Please enter your email address.');
             return;
         }
         if (usersList.some(el => user === el.Text)) {
+            alert('Enter an email address that is not listed.');
             return;
         }
 

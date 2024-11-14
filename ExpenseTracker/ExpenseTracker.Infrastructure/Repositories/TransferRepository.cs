@@ -34,7 +34,8 @@ internal class TransferRepository : RepositoryBase<Transfer>, ITransferRepositor
 
         if (!string.IsNullOrEmpty(search))
         {
-            query = query.Where(x => x.Category.Name.Contains(search) ||
+            query = query.Where(x => x.Wallet.Name.Contains(search) ||
+                (x.Category.Name.Contains(search))||
                 (x.Notes != null && x.Notes.Contains(search)));
         }
 

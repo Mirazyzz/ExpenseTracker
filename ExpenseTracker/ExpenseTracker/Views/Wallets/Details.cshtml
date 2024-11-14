@@ -11,18 +11,18 @@
                 <div class="grid-container">
                     <div class="row content">
                         <div class="col text-center">
-                            Name
+                            Ownarname
                         </div>
                         <div class="col text-center">
-                            Type
+                            Name
                         </div>
                     </div>
                     <div class="row value">
-                        <div class="col text-center">
-                            <span id="detailsWalletName"></span>
+                        <div class="col text-center">                            
+                            <span id="detailsWalletOwnerName"></span>
                         </div>
                         <div class="col text-center">
-                            <span id="detailsWalletType" template="#typeColumnTemplate"></span>
+                            <span id="detailsWalletName"></span>
                         </div>
                     </div>
                     <div class="row content">
@@ -30,18 +30,29 @@
                             Balance
                         </div>
                         <div class="col text-center">
-                            Description
+                            Type
                         </div>                       
                     </div>
-                    <div class="row comments" >
-                        <div class="col text-center" style="border-right: 0.1px solid #444C54; height: 100%;">
+                    <div class="row value" >
+                        <div class="col text-center" >
                             <span id="detailsWalletBalance"></span>
                         </div>
+                        <div class="col text-center">
+                            <span id="detailsWalletType" template="#typeColumnTemplate"></span>
+                            <div id="commentsDisplay"></div>
+                        </div>
+                    </div>
+                    <div class="row content">
+                        <div class="col text-center">
+                            Description
+                        </div>
+                    </div>
+                    <div class="row comments">
                         <div class="col text-center">
                             <span id="detailsWalletDescription"></span>
                             <div id="commentsDisplay"></div>
                         </div>
-                    </div>                   
+                    </div>
                     <input type="hidden" id="detailsWalletId">
                 </div>
             </div>
@@ -57,6 +68,7 @@
             success: function (data) {
                 console.log(data);
                 $('#detailsWalletName').text(data.Name);
+                $('#detailsWalletOwnerName').text(data.UserName);
                 $('#detailsWalletId').val(data.Id);
                 $('#detailsWalletBalance').text(data.Balance);
                 var comment = data.Description ? data.Description.trim() : "No comment";
