@@ -1,8 +1,10 @@
-﻿@model ExpenseTracker.Application.Requests.Transfer.CreateTransferRequest
+﻿@using ExpenseTracker.Application.ViewModels.Wallet
+@model ExpenseTracker.Application.Requests.Transfer.CreateTransferRequest
 
 @{
     ViewData["PageTitle"] = "Create new transaction";
     Layout = "~/Views/Shared/_ModalForLayout.cshtml";
+    var walletBalances = ((List<WalletViewModel>)ViewBag.Wallets).ToDictionary(w => w.Id, w => w.Balance);
 }
 
 <form asp-action="Create" enctype="multipart/form-data" method="post" id="transfer-form">
@@ -18,9 +20,10 @@
                           ignoreAccent="true"
                           dataSource="@ViewBag.Wallets"
                           placeholder="Select a wallet"
-                          popupHeight="220px"
-                          value="@ViewBag.DefaultWallet"
-                          floatLabelType="Always" required>
+                          popupHeight="220px"                          
+                          floatLabelType="Always" 
+                          change="onWalletChange"
+                          required>
                 <e-combobox-fields value="Id" text="Name"></e-combobox-fields>
             </ejs-combobox>
             <span asp-validation-for="WalletId" class="text-danger fs-6"></span>
@@ -36,7 +39,8 @@
                           placeholder="Select a category"
                           popupHeight="220px"
                           value="@ViewBag.DefaultCategory"
-                          floatLabelType="Always" required>
+                          floatLabelType="Always" required
+                          change="onWalletChange">
                 <e-combobox-fields value="Id" text="Name"></e-combobox-fields>
             </ejs-combobox>
             <span asp-validation-for="CategoryId" class="text-danger fs-6"></span>
@@ -47,8 +51,8 @@
             <ejs-numerictextbox id="amount"
                                 ejs-for="Amount"
                                 placeholder="Amount"
-                                floatLabelType="Always"
-                                min="1"
+                                floatLabelType="Always"  
+                                min="0"
                                 format="c0" required></ejs-numerictextbox>
             <span asp-validation-for="Amount" class="text-danger fs-6"></span>
         </div>
@@ -111,4 +115,19 @@
         const listItem = button.parentElement;
         listItem.remove();
     }
+</script>
+
+<script>
+    
+    function onWalletChange(args) {
+        var selectedWalletId = args.itemData.Id;
+        var wallets = @Html.Raw(Json.Serialize(ViewBag.Wallets));
+        var selectedWallet = wallets.find(w => w.Id === selectedWalletId);
+
+        if (selectedWallet) {
+            var amountNumericTextBox = document.getElementById('amount').ej2_instances[0];
+            amountNumericTextBox.max = selectedWallet.Balance;
+        }
+    }
+
 </script>
