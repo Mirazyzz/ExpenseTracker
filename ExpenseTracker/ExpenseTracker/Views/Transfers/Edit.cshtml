@@ -20,6 +20,7 @@
                           placeholder="Select a wallet"
                           popupHeight="220px"
                           value="@ViewBag.DefaultWallet"
+                          change="onWalletChange"
                           floatLabelType="Always" required>
                 <e-combobox-fields value="Id" text="Name"></e-combobox-fields>
             </ejs-combobox>
@@ -48,7 +49,7 @@
                                 ejs-for="Amount"
                                 placeholder="Amount"
                                 floatLabelType="Always"
-                                min="1"
+                                min="0"
                                 format="c0" required></ejs-numerictextbox>
             <span asp-validation-for="Amount" class="text-danger fs-6"></span>
         </div>
@@ -111,4 +112,19 @@
         const listItem = button.parentElement;
         listItem.remove();
     }
+</script>
+
+<script>
+
+    function onWalletChange(args) {
+        var selectedWalletId = args.itemData.Id;
+        var wallets = @Html.Raw(Json.Serialize(ViewBag.Wallets));
+        var selectedWallet = wallets.find(w => w.Id === selectedWalletId);
+
+        if (selectedWallet) {
+            var amountNumericTextBox = document.getElementById('amount').ej2_instances[0];
+            amountNumericTextBox.max = selectedWallet.Balance;
+        }
+    }
+
 </script>

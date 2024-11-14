@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header d-flex justify-content-center">
-                <h5 class="modal-title">New Category</h5>
+                <h5 class="modal-title">New category</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal">
                     <span aria-hidden="true"></span>
                 </button>
@@ -11,15 +11,14 @@
             <div class="modal-body">
                 <form id="createCategoryForm">
                     @Html.AntiForgeryToken()
+                    <div class='e-btn-group custom-rbt-group mb-3'>
+                        <input type="radio" id="radioleft" name="Type" value="Expense" checked />
+                        <label class="e-btn e-btn-danger" for="radioleft">Expense</label>
+                        <input type="radio" id="radiomiddle" name="Type" value="Income" />
+                        <label class="e-btn e-btn-success" for="radiomiddle">Income</label>
+                    </div>
                     <div class="mb-3">
                         <ejs-textbox type="text" placeholder="Name" floatLabelType="Always" class="form-control" id="categoryName" name="Name" required />
-                    </div>
-                    <div class="mb-4">
-                        <label for="categoryType" class="form-label text-box">Type</label>
-                        <select class="form-select type-select pt-2 pb-2" id="categoryType" name="Type">
-                            <option value="1">Expense</option>
-                            <option value="0">Income</option>
-                        </select>
                     </div>
                     <div class="mb-5">
                         <ejs-textbox type="text" placeholder="Note" floatLabelType="Always" multiline=true class="form-control" id="categoryDescription" name="Description" />

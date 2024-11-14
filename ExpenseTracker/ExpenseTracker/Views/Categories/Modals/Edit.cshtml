@@ -4,20 +4,14 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header d-flex justify-content-center">
-                <h5 class="modal-title">Edit Category</h5>
+                <h5 class="modal-title">Edit category</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal">
                     <span aria-hidden="true"></span>
                 </button>
             </div>
             <div class="modal-body">
                 <form id="updateCategoryForm" asp-action="Edit" method="post">
-                    <input type="hidden" id="categoryIdEdit" name="Id">
-                    <div class='e-btn-group custom-rbt-group mb-3'>
-                        <input type="radio" id="radioleft" name="Type" value="Expense" checked="@(Model == null || Model.Type == ExpenseTracker.Domain.Enums.CategoryType.Expense)" />
-                        <label class="e-btn e-btn-danger" for="radioleft">Expense</label>
-                        <input type="radio" id="radiomiddle" name="Type" value="Income" checked="@(Model?.Type == ExpenseTracker.Domain.Enums.CategoryType.Income)" />
-                        <label class="e-btn e-btn-success" for="radiomiddle">Income</label>
-                    </div>
+                    <input type="hidden" id="categoryIdEdit" name="Id">                    
                     <div class="mb-3">
                         <ejs-textbox type="text" placeholder="Name" floatLabelType="Always" class="form-control" id="categoryNameEdit" name="Name" required />
                     </div>
@@ -44,9 +38,13 @@
                 $('#categoryIdEdit').val(data.Id);
                 $('#categoryNameEdit').val(data.Name);
                 $('#categoryTypeEdit').val(data.Type);
-                
-                $('#categoryDescriptionEdit').text(data.Description);
 
+                var descriptionTextbox = document.getElementById('categoryDescriptionEdit').ej2_instances[0];
+
+                if (descriptionTextbox) {
+                    descriptionTextbox.value = data.Description;
+                }
+                
                 $('#updateCategoryModal').modal('show');
             },
             error: function (error) {
