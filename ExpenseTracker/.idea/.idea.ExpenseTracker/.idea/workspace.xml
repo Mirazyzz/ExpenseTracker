@@ -9,14 +9,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="900061b5-3f7a-4cfd-b8a4-4306a60c8c8d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/ExpenseTracker.Application/Mappings/UserMappings.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExpenseTracker.Application/Requests/User/CreateUserRequest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExpenseTracker.Application/Requests/User/GetUserRequest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExpenseTracker.Application/Requests/User/UpdateUserRequest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExpenseTracker.Application/Requests/User/UserRequest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExpenseTracker.Application/ViewModels/User/UserViewModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpenseTracker.Application/ViewModels/Transfer/TransferViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpenseTracker.Application/ViewModels/Transfer/TransferViewModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpenseTracker/Controllers/AccountController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpenseTracker/Controllers/AccountController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpenseTracker.Application/Services/CurrentUserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpenseTracker.Application/Services/CurrentUserService.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,14 +20,25 @@
     <option name="autoShow" value="false" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/b0bf656715b640fc883431d6c8e30a77d82000/13/234cb0bc/ExceptionDispatchInfo.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/b0bf656715b640fc883431d6c8e30a77d82000/18/3b35ee72/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/begzhanmaxamatxanov/RiderProjects/ExpenseTracker/ExpenseTracker/ExpenseTracker.Application/Services/CurrentUserService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/begzhanmaxamatxanov/RiderProjects/ExpenseTracker/ExpenseTracker/ExpenseTracker.Application/Services/CurrentUserService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/begzhanmaxamatxanov/RiderProjects/ExpenseTracker/ExpenseTracker/ExpenseTracker/Views/Categories/Modals/Create.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/begzhanmaxamatxanov/RiderProjects/ExpenseTracker/ExpenseTracker/ExpenseTracker/Views/Categories/Modals/Create.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/begzhanmaxamatxanov/RiderProjects/ExpenseTracker/ExpenseTracker/ExpenseTracker/Views/Transfers/Create.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/begzhanmaxamatxanov/RiderProjects/ExpenseTracker/ExpenseTracker/ExpenseTracker/Views/Transfers/Create.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="SKIP_HIGHLIGHTING" />
   </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -46,26 +50,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET Launch Settings Profile.ExpenseTracker: http.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Launch Settings Profile.ExpenseTracker: http.executor": "Debug",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "METHOD__ADD",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;/Users/begzhanmaxamatxanov/Library/Application Support/JetBrains/Rider2024.1/resharper-host/DecompilerCache&quot;,
-      &quot;/Users/begzhanmaxamatxanov/Library/Application Support/JetBrains/Rider2024.1/resharper-host/SourcesCache&quot;,
-      &quot;/Users/begzhanmaxamatxanov/Library/Application Support/Symbols/src&quot;
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "/Users/begzhanmaxamatxanov/Library/Application Support/JetBrains/Rider2024.1/resharper-host/DecompilerCache",
+      "/Users/begzhanmaxamatxanov/Library/Application Support/JetBrains/Rider2024.1/resharper-host/SourcesCache",
+      "/Users/begzhanmaxamatxanov/Library/Application Support/Symbols/src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected=".NET Launch Settings Profile.ExpenseTracker: http">
     <configuration name="ExpenseTracker: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/ExpenseTracker/ExpenseTracker.csproj" />
@@ -115,9 +119,12 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="SALAM" />
+    <option name="LAST_COMMIT_MESSAGE" value="SALAM" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

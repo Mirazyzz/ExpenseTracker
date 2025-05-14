@@ -10,6 +10,19 @@ public class EmailOptions
     public required string From { get; init; }
 
     [Required(ErrorMessage = "Smtp server is required")]
+    ces
+        fcesc
+    es
+        cesc
+    es
+        ce
+    sdc
+        esd
+    class sd
+        cd
+            scds
+        cd
+            sc
     public required string SmtpServer { get; init; }
 
     [Required(ErrorMessage = "Port is required")]
